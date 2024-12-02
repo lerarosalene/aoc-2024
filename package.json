@@ -1,0 +1,27 @@
+{
+  "private": true,
+  "name": "aoc-2024",
+  "version": "1.0.0",
+  "scripts": {
+    "typecheck": "tsc",
+    "build": "node build.js",
+    "solve": "npm run typecheck && npm run build && node dist/aoc-2024.js",
+    "prettier": "prettier -w src/**/*.ts build.js build-tests.js",
+    "build:tests": "node build-tests.js",
+    "test": "node build-tests.js && node --test \"tests/**/*.test.js\""
+  },
+  "keywords": [
+    "advent of code"
+  ],
+  "author": "Larissa Rosalene <lerarosalene@outlook.com>",
+  "license": "MIT",
+  "description": "Advent of Code 2024 personal repository",
+  "dependencies": {
+    "@types/node": "^22.10.1",
+    "arg": "^5.0.2",
+    "esbuild": "^0.24.0",
+    "glob": "^11.0.0",
+    "prettier": "^3.4.1",
+    "typescript": "^5.7.2"
+  }
+}
