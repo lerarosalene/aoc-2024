@@ -1,0 +1,147 @@
+:toc:
+:toc-title:
+:toclevels: 1
+
+ifdef::env-github[]
+:note-caption: :information_source:
+endif::[]
+
+= https://adventofcode.com/2024[Advent of Code 2024^] solver
+
+== Usage
+
+=== Install dependencies
+
+```bash
+npm ci
+```
+
+=== Build
+
+```bash
+npm run typecheck && npm run build
+```
+
+=== Run
+
+```bash
+node dist/aoc-2024.js -d <day> -i <input file>
+```
+
+=== Test
+
+```bash
+npm test
+```
+
+NOTE: Only a few modules are covered by tests. That's more of a sanity check than proper coverage.
+
+== List of puzzles
+
+[%header,cols="70,~,~"]
+|===
+|Day
+|Part I
+|Part II
+
+|Day 1: Historian Hysteria
+|✅
+|✅
+
+|Day 2: Red-Nosed Reports
+|✅
+|✅
+
+|3
+|
+|
+
+|4
+|
+|
+
+|5
+|
+|
+
+|6
+|
+|
+
+|7
+|
+|
+
+|8
+|
+|
+
+|9
+|
+|
+
+|10
+|
+|
+
+|11
+|
+|
+
+|12
+|
+|
+
+|13
+|
+|
+
+|14
+|
+|
+
+|15
+|
+|
+
+|16
+|
+|
+
+|17
+|
+|
+
+|18
+|
+|
+
+|19
+|
+|
+
+|20
+|
+|
+
+|21
+|
+|
+
+|22
+|
+|
+
+|23
+|
+|
+
+|24
+|
+|
+
+|25
+|
+|
+
+|===
