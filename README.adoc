@@ -60,9 +60,9 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |✅
 |✅
 
-|5
-|
-|
+|Day 5: Print Queue
+|✅
+|✅
 
 |6
 |
