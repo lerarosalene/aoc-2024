@@ -1,8 +1,7 @@
+import { lines } from "../../common/utils";
+
 function parse(input: string) {
-  return input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
+  return lines(input)
     .map((line) => line.split(/\s+/g))
     .map(([left, right]) => [Number(left.trim()), Number(right.trim())])
     .reduce(

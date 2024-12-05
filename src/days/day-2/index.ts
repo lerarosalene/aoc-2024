@@ -1,17 +1,14 @@
+import { lines } from "../../common/utils";
 import { SkipArray } from "./SkipArray";
 
 function parse(input: string) {
-  return input
-    .split("\n")
-    .map((line) => line.trim())
-    .filter((line) => line.length > 0)
-    .map((line) =>
-      line
-        .split(/\s+/g)
-        .map((level) => level.trim())
-        .filter((level) => level.length > 0)
-        .map((level) => Number(level)),
-    );
+  return lines(input).map((line) =>
+    line
+      .split(/\s+/g)
+      .map((level) => level.trim())
+      .filter((level) => level.length > 0)
+      .map((level) => Number(level)),
+  );
 }
 
 function isSafe(report: number[], skip = -1): boolean {

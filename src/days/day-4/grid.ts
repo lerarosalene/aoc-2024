@@ -1,4 +1,5 @@
 import assert from "assert";
+import { lines } from "../../common/utils";
 
 export enum Direction {
   N,
@@ -57,16 +58,12 @@ export class Grid {
   private _chars: string[][];
 
   constructor(input: string) {
-    this._chars = input
-      .split("\n")
-      .map((line) => line.trim())
-      .filter((line) => line.length > 0)
-      .map((line) =>
-        line
-          .split("")
-          .map((c) => c.trim())
-          .filter((c) => c.length > 0),
-      );
+    this._chars = lines(input).map((line) =>
+      line
+        .split("")
+        .map((c) => c.trim())
+        .filter((c) => c.length > 0),
+    );
     const lineLength = new Set(this._chars.map((l) => l.length));
     assert(lineLength.size === 1, "every line should have the same length");
   }
