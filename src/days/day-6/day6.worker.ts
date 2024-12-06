@@ -1,6 +1,7 @@
 import { isMainThread, parentPort, workerData } from "node:worker_threads";
 import { WorkerData, isInfiniteLoop, placeObstacle } from "./common";
 import { ContinousGrid } from "../../common/continous-grid";
+
 function main() {
   if (isMainThread) {
     throw new Error("Supposed to only be ran as a worker");
