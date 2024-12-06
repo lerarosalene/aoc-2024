@@ -1,5 +1,5 @@
 import assert from "assert";
-import { lines } from "../../common/utils";
+import { lines } from "./utils";
 
 export enum Direction {
   N,
@@ -69,14 +69,25 @@ export class Grid {
   }
 
   public at(x: number, y: number): string | null {
-    return this._chars[x]?.[y] ?? null;
+    return this._chars[y]?.[x] ?? null;
+  }
+
+  public set(x: number, y: number, symbol: string): void {
+    if ((this._chars[y]?.[x] ?? null) === null) {
+      throw new RangeError(`${x}:${y} is not a valid position on the grid`);
+    }
+    this._chars[y][x] = symbol;
   }
 
   public get width() {
-    return this._chars.length;
+    return this._chars[0].length;
   }
 
   public get height() {
-    return this._chars[0].length;
+    return this._chars.length;
+  }
+
+  public clone(): Grid {
+    return new Grid(this._chars.map((line) => line.join("")).join("\n"));
   }
 }

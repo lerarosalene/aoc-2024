@@ -64,9 +64,9 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |✅
 |✅
 
-|6
-|
-|
+|Day 6: Guard Gallivant
+|✅
+|✅ (takes ~20s)
 
 |7
 |

@@ -1,4 +1,4 @@
-import { DIRECTIONS, Direction, Grid, difference } from "./grid";
+import { DIRECTIONS, Direction, Grid, difference } from "../../common/grid";
 
 class SolverP1 {
   private _grid: Grid;
