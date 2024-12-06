@@ -81,20 +81,22 @@ function isInfiniteLoop(grid: Grid) {
   return false;
 }
 
-function placeObstacle(grid: Grid, x: number, y: number) {
-  const copy = grid.clone();
-  copy.set(x, y, "#");
-  return copy;
+function parsePointFromKey(key: string): Point {
+  const [x, y] = key.split(":");
+  const p = { x: Number(x), y: Number(y) };
+  if (isNaN(p.x) || isNaN(p.y)) {
+    throw new TypeError(`Invalid point key: ${key}`);
+  }
+  return p;
 }
 
-export function partOne(input: string) {
-  const grid = new Grid(input);
+function collectPositions(grid: Grid) {
   const visited = new Set<string>();
   let guard = findOnGrid(grid, "^");
   let currentDirection = Direction.N;
 
   if (!guard) {
-    return "didn't find a guard";
+    throw new Error("didn't find a guard");
   }
 
   while (isOnGrid(grid, guard)) {
@@ -111,22 +113,33 @@ export function partOne(input: string) {
     }
   }
 
-  return visited.size;
+  return [...visited].map(parsePointFromKey);
+}
+
+function placeObstacle(grid: Grid, x: number, y: number) {
+  const copy = grid.clone();
+  copy.set(x, y, "#");
+  return copy;
+}
+
+export function partOne(input: string) {
+  const grid = new Grid(input);
+  const positions = collectPositions(grid);
+  return positions.length;
 }
 
 export function partTwo(input: string) {
   const grid = new Grid(input);
   let result = 0;
+  const possiblePlacements = collectPositions(grid);
 
-  for (let x = 0; x < grid.width; ++x) {
-    for (let y = 0; y < grid.height; ++y) {
-      if (grid.at(x, y) !== ".") {
-        continue;
-      }
-      let newGrid = placeObstacle(grid, x, y);
-      if (isInfiniteLoop(newGrid)) {
-        result += 1;
-      }
+  for (const point of possiblePlacements) {
+    if (grid.at(point.x, point.y) !== ".") {
+      continue;
+    }
+    let newGrid = placeObstacle(grid, point.x, point.y);
+    if (isInfiniteLoop(newGrid)) {
+      result += 1;
     }
   }
 
