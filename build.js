@@ -1,5 +1,6 @@
 const p = require("node:path");
 const esbuild = require("esbuild");
+const { glob } = require("glob");
 
 async function main() {
   await esbuild.build({
@@ -10,6 +11,18 @@ async function main() {
     outfile: p.join("dist", "aoc-2024.js"),
     platform: "node",
   });
+
+  const workers = await glob("src/**/*.worker.ts");
+  for (const worker of workers) {
+    await esbuild.build({
+      entryPoints: [worker],
+      bundle: true,
+      minify: true,
+      sourcemap: true,
+      outfile: p.join("dist", p.basename(worker, ".worker.ts") + ".worker.js"),
+      platform: "node",
+    });
+  }
 }
 
 main().catch((error) => {

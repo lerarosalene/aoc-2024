@@ -5,9 +5,11 @@ import * as Day4 from "./day-4";
 import * as Day5 from "./day-5";
 import * as Day6 from "./day-6";
 
+type SolverResult = number | string | Promise<number> | Promise<string>;
+
 interface Solver {
-  partOne(input: string): any;
-  partTwo(input: string): any;
+  partOne(input: string): SolverResult;
+  partTwo(input: string): SolverResult;
 }
 
 export const days = new Map<number, Solver>();

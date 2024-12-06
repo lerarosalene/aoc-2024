@@ -26,8 +26,8 @@ async function main() {
   }
 
   const input = await fsp.readFile(inputFile, "utf-8");
-  console.log(`Part 1: ${solver.partOne(input)}`);
-  console.log(`Part 2: ${solver.partTwo(input)}`);
+  console.log(`Part 1: ${await solver.partOne(input)}`);
+  console.log(`Part 2: ${await solver.partTwo(input)}`);
 }
 
 main().catch((error) => {
