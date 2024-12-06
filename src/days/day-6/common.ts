@@ -1,4 +1,5 @@
-import { Direction, Grid, difference } from "../../common/grid";
+import { ContinousGrid } from "../../common/continous-grid";
+import { Direction, difference } from "../../common/grid";
 
 export interface Point {
   x: number;
@@ -18,13 +19,20 @@ export function directionalKey(point: Point, direction: Direction): string {
   return `${point.x}:${point.y}:${direction}`;
 }
 
-export function placeObstacle(grid: Grid, x: number, y: number) {
+export function placeObstacle(
+  grid: ContinousGrid<string>,
+  x: number,
+  y: number,
+) {
   const copy = grid.clone();
   copy.set(x, y, "#");
   return copy;
 }
 
-export function findOnGrid(grid: Grid, symbol: string): Point | null {
+export function findOnGrid(
+  grid: ContinousGrid<string>,
+  symbol: string,
+): Point | null {
   for (let x = 0; x < grid.width; ++x) {
     for (let y = 0; y < grid.height; ++y) {
       if (grid.at(x, y) === symbol) {
@@ -36,7 +44,7 @@ export function findOnGrid(grid: Grid, symbol: string): Point | null {
   return null;
 }
 
-export function isOnGrid(grid: Grid, point: Point): boolean {
+export function isOnGrid(grid: ContinousGrid<string>, point: Point): boolean {
   return (
     point.x >= 0 &&
     point.y >= 0 &&
@@ -62,7 +70,7 @@ export function rotate(direction: Direction): Direction {
   }
 }
 
-export function isInfiniteLoop(grid: Grid) {
+export function isInfiniteLoop(grid: ContinousGrid<string>) {
   const visited = new Set<string>();
   let guard = findOnGrid(grid, "^");
   let currentDirection = Direction.N;

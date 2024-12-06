@@ -1,7 +1,8 @@
 import path from "node:path";
 import { Worker } from "node:worker_threads";
-import { Direction, Grid, difference } from "../../common/grid";
+import { Direction, difference } from "../../common/grid";
 import { Point, WorkerData, findOnGrid, isOnGrid, key, rotate } from "./common";
+import { ContinousGrid } from "../../common/continous-grid";
 
 function parsePointFromKey(key: string): Point {
   const [x, y] = key.split(":");
@@ -12,7 +13,7 @@ function parsePointFromKey(key: string): Point {
   return p;
 }
 
-function collectPositions(grid: Grid) {
+function collectPositions(grid: ContinousGrid<string>) {
   const visited = new Set<string>();
   let guard = findOnGrid(grid, "^");
   let currentDirection = Direction.N;
@@ -39,7 +40,7 @@ function collectPositions(grid: Grid) {
 }
 
 export function partOne(input: string) {
-  const grid = new Grid(input);
+  const grid = ContinousGrid.parseCharGrid(input);
   const positions = collectPositions(grid);
   return positions.length;
 }
@@ -47,7 +48,7 @@ export function partOne(input: string) {
 const P2_WORKER_COUNT = 12;
 
 export async function partTwo(input: string) {
-  const grid = new Grid(input);
+  const grid = ContinousGrid.parseCharGrid(input);
   const possiblePlacements = collectPositions(grid);
 
   const batches = Array(P2_WORKER_COUNT)

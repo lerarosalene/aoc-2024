@@ -1,14 +1,13 @@
 import { isMainThread, parentPort, workerData } from "node:worker_threads";
 import { WorkerData, isInfiniteLoop, placeObstacle } from "./common";
-import { Grid } from "../../common/grid";
-
+import { ContinousGrid } from "../../common/continous-grid";
 function main() {
   if (isMainThread) {
     throw new Error("Supposed to only be ran as a worker");
   }
 
   const wd: WorkerData = workerData;
-  const grid = new Grid(wd.input);
+  const grid = ContinousGrid.parseCharGrid(wd.input);
 
   let result = 0;
 

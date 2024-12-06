@@ -10,6 +10,7 @@ async function main() {
   const master = tests
     .map((name) => p.relative("src", name))
     .map((name) => name.replaceAll(p.sep, p.posix.sep))
+    .sort()
     .map((name) => `import "./${name}";`);
 
   master.unshift(
