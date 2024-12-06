@@ -145,3 +145,32 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |
 
 |===
+
+== Full-test mode
+
+Create `.csv` file with a list of inputs/answers, formatted like that:
+
+```csv
+1,day-1.txt,420,69
+2,day-2.txt,690,42
+...
+```
+
+where columns are
+
+1. Day number (number)
+2. Input file location, *relative to `.csv` file location*
+3. Answer for part 1 (number)
+4. Answer for part 2 (number)
+
+Then build project as described
+
+```bash
+npm run typecheck && npm run build
+```
+
+And run full-test
+
+```bash
+node dist/aoc-2024.js -f <csv file location>
+```

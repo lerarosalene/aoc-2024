@@ -1,6 +1,7 @@
 import fs from "node:fs";
 import arg from "arg";
 import { days } from "./days";
+import { selfTest } from "./self-test";
 
 const fsp = fs.promises;
 
@@ -8,9 +9,16 @@ async function main() {
   const args = arg({
     "--day": Number,
     "--input": String,
+    "--full-test": String,
+    "-f": "--full-test",
     "-d": "--day",
     "-i": "--input",
   });
+
+  if (args["--full-test"]) {
+    await selfTest(args["--full-test"]);
+    return;
+  }
 
   const day = args["--day"] ?? null;
   const inputFile = args["--input"] ?? null;
