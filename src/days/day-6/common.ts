@@ -71,11 +71,9 @@ export function rotate(direction: Direction): Direction {
 }
 
 export function isInfiniteLoop(grid: ContinousGrid<string>) {
-  const visited = new ContinousGrid<number>(
-    grid.width,
-    grid.height,
-    Array(grid.width * grid.height).fill(0),
-  );
+  const width = grid.width;
+  const height = grid.height;
+  const visited = new Uint8Array(width * height * 8);
   let guard = findOnGrid(grid, "^");
   let currentDirection = Direction.N;
 
@@ -84,11 +82,11 @@ export function isInfiniteLoop(grid: ContinousGrid<string>) {
   }
 
   while (isOnGrid(grid, guard)) {
-    const currentVisitedCell = visited.at(guard.x, guard.y) ?? 0;
-    if (currentVisitedCell & (1 << currentDirection)) {
+    const stateKey = (guard.y * width + guard.x) * 8 + currentDirection;
+    if (visited[stateKey]) {
       return true;
     }
-    visited.set(guard.x, guard.y, currentVisitedCell | (1 << currentDirection));
+    visited[stateKey] = 1;
     let diff = difference(currentDirection);
     let next: Point = {
       x: guard.x + diff.x,
