@@ -2,3 +2,4 @@
 import "./common/continous-grid.test.ts";
 import "./common/grid.test.ts";
 import "./days/day-2/SkipArray.test.ts";
+import "./days/day-7/common.test.ts";

@@ -66,11 +66,11 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 
 |Day 6: Guard Gallivant
 |✅
-|✅ (takes +++<s>~20s</s>+++ +++<s>~5s</s>+++ +++<s>~1.5s</s>+++ ~700ms)
+|✅
 
-|7
-|
-|
+|Day 7: Bridge Repair
+|✅
+|✅
 
 |8
 |
