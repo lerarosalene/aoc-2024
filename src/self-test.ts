@@ -17,9 +17,9 @@ type Record = zod.infer<typeof Record>;
 const Data = zod.array(Record);
 type Data = zod.infer<typeof Data>;
 
-function log(day: number, results: [string, string]) {
+function log(day: number, results: [string, string], time: number) {
   console.log(
-    `Day ${String(day).padStart(2, " ")}: ${results[0]}, ${results[1]}`,
+    `Day ${String(day).padStart(2, " ")}: ${results[0]}, ${results[1]} - ${time.toFixed(0)}ms`,
   );
 }
 
@@ -32,15 +32,18 @@ export async function selfTest(fullFile: string) {
   for (const { day, file, answer1, answer2 } of data) {
     const solver = days.get(+day);
     if (!solver) {
-      log(+day, ["NO SOLVER", "NO SOLVER"]);
+      log(+day, ["NO SOLVER", "NO SOLVER"], 0);
       continue;
     }
     const input = await fsp.readFile(
       p.join(p.dirname(fullFile), file),
       "utf-8",
     );
+    const startTime = process.hrtime.bigint();
     const solverAnswer1 = await solver.partOne(input);
     const solverAnswer2 = await solver.partTwo(input);
+    const endTime = process.hrtime.bigint();
+    const tdiff = Number(endTime - startTime) / 1e6;
     const result1 =
       Number(solverAnswer1) === Number(answer1) &&
       !isNaN(Number(solverAnswer1));
@@ -48,6 +51,6 @@ export async function selfTest(fullFile: string) {
       Number(solverAnswer2) === Number(answer2) &&
       !isNaN(Number(solverAnswer2));
 
-    log(+day, [result1 ? "OK" : "FAIL", result2 ? "OK" : "FAIL"]);
+    log(+day, [result1 ? "OK" : "FAIL", result2 ? "OK" : "FAIL"], tdiff);
   }
 }
