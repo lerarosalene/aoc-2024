@@ -72,9 +72,9 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |✅
 |✅
 
-|8
-|
-|
+|Day 8: Resonant Collinearity
+|✅
+|✅
 
 |9
 |

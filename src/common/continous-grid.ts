@@ -2,6 +2,12 @@ import assert from "node:assert";
 import { clone, isCloneable } from "./cloneable";
 import { lines } from "./utils";
 
+interface IterationResult<T> {
+  x: number;
+  y: number;
+  value: T;
+}
+
 export class ContinousGrid<T> {
   private _items: T[];
   private _width: number;
@@ -60,5 +66,25 @@ export class ContinousGrid<T> {
 
   public [clone]() {
     return this.clone();
+  }
+
+  public toString() {
+    let lines = [];
+    for (let y = 0; y < this.height; ++y) {
+      let line = "";
+      for (let x = 0; x < this.width; ++x) {
+        line += this.at(x, y);
+      }
+      lines.push(line);
+    }
+    return lines.join("\n");
+  }
+
+  *[Symbol.iterator](): Generator<IterationResult<T>> {
+    for (let x = 0; x < this.width; ++x) {
+      for (let y = 0; y < this.height; ++y) {
+        yield { x, y, value: this._items[y * this._width + x] };
+      }
+    }
   }
 }

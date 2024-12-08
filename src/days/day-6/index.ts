@@ -1,8 +1,9 @@
 import path from "node:path";
 import { Worker } from "node:worker_threads";
 import { Direction, difference } from "../../common/grid";
-import { Point, WorkerData, findOnGrid, isOnGrid, key, rotate } from "./common";
+import { WorkerData, findOnGrid, isOnGrid, key, rotate } from "./common";
 import { ContinousGrid } from "../../common/continous-grid";
+import { Point } from "../../common/point";
 
 function parsePointFromKey(key: string): Point {
   const [x, y] = key.split(":");

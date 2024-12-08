@@ -5,6 +5,7 @@ import * as Day4 from "./day-4";
 import * as Day5 from "./day-5";
 import * as Day6 from "./day-6";
 import * as Day7 from "./day-7";
+import * as Day8 from "./day-8";
 
 type SolverResult = number | string | Promise<number> | Promise<string>;
 
@@ -22,3 +23,4 @@ days.set(4, Day4);
 days.set(5, Day5);
 days.set(6, Day6);
 days.set(7, Day7);
+days.set(8, Day8);

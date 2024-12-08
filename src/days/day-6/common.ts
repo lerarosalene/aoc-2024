@@ -1,10 +1,6 @@
 import { ContinousGrid } from "../../common/continous-grid";
 import { Direction, difference } from "../../common/grid";
-
-export interface Point {
-  x: number;
-  y: number;
-}
+import { Point } from "../../common/point";
 
 export interface WorkerData {
   input: string;
