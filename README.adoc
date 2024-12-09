@@ -76,9 +76,9 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |✅
 |✅
 
-|9
-|
-|
+|Day 9: Disk Fragmenter
+|✅
+|✅
 
 |10
 |
