@@ -54,7 +54,15 @@ export function difference(direction: Direction): Difference {
   }
 }
 
-export class Grid {
+export interface IGrid<T> {
+  at(x: number, y: number): T | null;
+  set(x: number, y: number, value: T): void;
+  get width(): number;
+  get height(): number;
+  clone(): IGrid<T>;
+}
+
+export class Grid implements IGrid<string> {
   private _chars: string[][];
 
   constructor(input: string) {
