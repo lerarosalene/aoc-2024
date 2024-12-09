@@ -12,6 +12,15 @@ async function main() {
     platform: "node",
   });
 
+  await esbuild.build({
+    entryPoints: [p.join("src", "build-readme.ts")],
+    bundle: true,
+    minify: true,
+    sourcemap: true,
+    outfile: p.join("dist", "build-readme.js"),
+    platform: "node",
+  });
+
   const workers = await glob("src/**/*.worker.ts");
   for (const worker of workers) {
     await esbuild.build({
