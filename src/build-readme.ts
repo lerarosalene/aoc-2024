@@ -1,6 +1,8 @@
-import p from "node:path";
 import fs from "node:fs";
+import assert from "node:assert";
+import arg from "arg";
 import { generateReport } from "./self-test";
+import { AssertionError } from "node:assert";
 
 const fsp = fs.promises;
 
@@ -25,9 +27,14 @@ const TITLES = [
 ];
 
 async function main() {
-  let report = await asyncCollect(
-    generateReport(p.join("inputs", "selftest.txt")),
-  );
+  const args = arg({
+    "--input": String,
+    "-i": "--input",
+  });
+
+  assert(args["--input"], "--input/-i was provided");
+
+  let report = await asyncCollect(generateReport(args["--input"]));
   const reportMap = report.reduce(
     (acc, entry) => acc.set(entry.day, entry),
     new Map<number, (typeof report)[0]>(),
@@ -52,6 +59,10 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error(error);
+  console.error(
+    error instanceof AssertionError
+      ? `AssertionError: ${error.message}`
+      : error,
+  );
   process.exit(1);
 });
