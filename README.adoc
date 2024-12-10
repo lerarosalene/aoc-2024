@@ -42,15 +42,15 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 |===
 Day,Part I,Part II,Execution time
 Day 1: Historian Hysteria,✅,✅,3ms
-Day 2: Red-Nosed Reports,✅,✅,6ms
+Day 2: Red-Nosed Reports,✅,✅,5ms
 Day 3: Mull It Over,✅,✅,1ms
-Day 4: Ceres Search,✅,✅,69ms
-Day 5: Print Queue,✅,✅,13ms
+Day 4: Ceres Search,✅,✅,68ms
+Day 5: Print Queue,✅,✅,12ms
 Day 6: Guard Gallivant,✅,✅,481ms
-Day 7: Bridge Repair,✅,✅,208ms
+Day 7: Bridge Repair,✅,✅,232ms
 Day 8: Resonant Collinearity,✅,✅,2ms
-Day 9: Disk Fragmenter,✅,✅,161ms
-10,,,
+Day 9: Disk Fragmenter,✅,✅,170ms
+Day 10: Hoof It,✅,✅,10ms
 11,,,
 12,,,
 13,,,
