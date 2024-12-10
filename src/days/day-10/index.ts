@@ -1,14 +1,8 @@
 import { ContinousGrid } from "../../common/continous-grid";
-import type { IGrid } from "../../common/grid";
 import type { Point } from "../../common/point";
 
 function key(p: Point) {
   return `${p.x}:${p.y}`;
-}
-
-function parseKey(key: string): Point {
-  const [x, y] = key.split(":");
-  return { x: Number(x), y: Number(y) };
 }
 
 function* neighbours(pt: Point): IterableIterator<Point> {
@@ -19,43 +13,46 @@ function* neighbours(pt: Point): IterableIterator<Point> {
   yield { x: x, y: y + 1 };
 }
 
-function expand(
-  grid: IGrid<string>,
-  points: Set<string>,
-  targetHeight: number,
-) {
-  const result = new Set<string>();
-  const currentPoints = [...points].map(parseKey);
-  for (const pt of currentPoints) {
-    for (const neighbour of neighbours(pt)) {
-      if (grid.at(neighbour.x, neighbour.y) === String(targetHeight)) {
-        result.add(key(neighbour));
+export function partOne(input: string) {
+  const grid = ContinousGrid.parseCharGrid(input);
+  const sumGrid = new ContinousGrid(
+    grid.width,
+    grid.height,
+    Array(grid.width * grid.height)
+      .fill(0)
+      .map(() => new Set<string>()),
+  );
+
+  for (const { x, y, value } of grid) {
+    if (value === "9") {
+      sumGrid.at(x, y)?.add(key({ x, y }));
+    }
+  }
+
+  for (let i = 8; i >= 0; --i) {
+    for (const { x, y, value } of grid) {
+      if (value !== String(i + 1)) {
+        continue;
+      }
+      for (const neighbour of neighbours({ x, y })) {
+        if (grid.at(neighbour.x, neighbour.y) === String(i)) {
+          const current = sumGrid.at(neighbour.x, neighbour.y);
+          const adding = sumGrid.at(x, y) ?? new Set();
+          for (let key of adding) {
+            current?.add(key);
+          }
+        }
       }
     }
   }
-  return result;
-}
 
-export function getScoreP1(grid: IGrid<string>, trailhead: Point) {
-  let points = new Set([trailhead].map(key));
-
-  for (let i = 1; i <= 9; ++i) {
-    points = expand(grid, points, i);
-  }
-
-  return points.size;
-}
-
-export function partOne(input: string) {
-  const grid = ContinousGrid.parseCharGrid(input);
-  const trailheads: Point[] = [];
+  let result = 0;
   for (const { x, y, value } of grid) {
     if (value === "0") {
-      trailheads.push({ x, y });
+      result += sumGrid.at(x, y)?.size ?? 0;
     }
   }
-
-  return trailheads.reduce((acc, value) => acc + getScoreP1(grid, value), 0);
+  return result;
 }
 
 export function partTwo(input: string) {
