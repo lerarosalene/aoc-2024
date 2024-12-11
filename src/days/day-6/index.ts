@@ -68,8 +68,9 @@ export async function partTwo(input: string) {
         input,
         batch: batches[i],
       };
-      const worker = new Worker(path.join(__dirname, "day6.worker.js"), {
+      const worker = new Worker(WORKERS.DAY6, {
         workerData,
+        eval: true,
       });
       worker.on("message", (result: number) => resolve(result));
     });

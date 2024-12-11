@@ -6,6 +6,21 @@ const { glob } = require("glob");
 const fsp = fs.promises;
 
 async function main() {
+  const workers = await glob("src/**/*.worker.ts");
+  const define = {};
+  for (const worker of workers) {
+    const out = await esbuild.build({
+      entryPoints: [worker],
+      bundle: true,
+      minify: true,
+      outfile: p.join("dist", p.basename(worker, ".worker.ts") + ".worker.js"),
+      platform: "node",
+      write: false,
+    });
+    define[`WORKERS.${p.basename(worker, ".worker.ts").toUpperCase()}`] =
+      JSON.stringify(out.outputFiles[0].text);
+  }
+
   const tests = await glob("src/**/*.test.ts");
   const master = tests
     .map((name) => p.relative("src", name))
@@ -28,6 +43,7 @@ async function main() {
     minify: true,
     sourcemap: true,
     platform: "node",
+    define,
   });
 }
 

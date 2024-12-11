@@ -3,6 +3,21 @@ const esbuild = require("esbuild");
 const { glob } = require("glob");
 
 async function main() {
+  const workers = await glob("src/**/*.worker.ts");
+  const define = {};
+  for (const worker of workers) {
+    const out = await esbuild.build({
+      entryPoints: [worker],
+      bundle: true,
+      minify: true,
+      outfile: p.join("dist", p.basename(worker, ".worker.ts") + ".worker.js"),
+      platform: "node",
+      write: false,
+    });
+    define[`WORKERS.${p.basename(worker, ".worker.ts").toUpperCase()}`] =
+      JSON.stringify(out.outputFiles[0].text);
+  }
+
   await esbuild.build({
     entryPoints: [p.join("src", "index.ts")],
     bundle: true,
@@ -10,6 +25,7 @@ async function main() {
     sourcemap: true,
     outfile: p.join("dist", "aoc-2024.js"),
     platform: "node",
+    define,
   });
 
   await esbuild.build({
@@ -19,19 +35,8 @@ async function main() {
     sourcemap: true,
     outfile: p.join("dist", "build-readme.js"),
     platform: "node",
+    define,
   });
-
-  const workers = await glob("src/**/*.worker.ts");
-  for (const worker of workers) {
-    await esbuild.build({
-      entryPoints: [worker],
-      bundle: true,
-      minify: true,
-      sourcemap: true,
-      outfile: p.join("dist", p.basename(worker, ".worker.ts") + ".worker.js"),
-      platform: "node",
-    });
-  }
 }
 
 main().catch((error) => {
