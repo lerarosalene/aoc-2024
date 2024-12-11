@@ -1,4 +1,3 @@
-import path from "node:path";
 import { Worker } from "node:worker_threads";
 import { Direction, difference } from "../../common/grid";
 import { WorkerData, findOnGrid, isOnGrid, key, rotate } from "./common";
