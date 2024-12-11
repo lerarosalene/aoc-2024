@@ -1,7 +1,9 @@
 import fs from "node:fs";
 import p from "node:path";
+import assert from "node:assert";
 import * as csv from "csv-parse/sync";
 import zod from "zod";
+import chalk from "chalk";
 import { days } from "./days";
 
 const fsp = fs.promises;
@@ -17,7 +19,8 @@ type Record = zod.infer<typeof Record>;
 const Data = zod.array(Record);
 type Data = zod.infer<typeof Data>;
 
-function log(day: number, results: [string, string], time: number) {
+function log(day: number, results: string[], time: number) {
+  assert.equal(results.length, 2, "`results` has 2 elements");
   console.log(
     `Day ${String(day).padStart(2, " ")}: ${results[0]}, ${results[1]} - ${time.toFixed(0)}ms`,
   );
@@ -64,11 +67,14 @@ export async function* generateReport(
   }
 }
 
+const PASS_MSG = chalk.green("PASS");
+const FAIL_MSG = chalk.red("FAIL");
+
 export async function selfTest(fullFile: string) {
   for await (const day of generateReport(fullFile)) {
     log(
       day.day,
-      [day.partOne ? "OK" : "NOT OK", day.partTwo ? "OK" : "NOT OK"],
+      [day.partOne, day.partTwo].map((res) => (res ? PASS_MSG : FAIL_MSG)),
       day.time,
     );
   }
