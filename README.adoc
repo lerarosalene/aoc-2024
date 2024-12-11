@@ -41,15 +41,15 @@ NOTE: Only a few modules are covered by tests. That's more of a sanity check tha
 [%header,cols="70,~,~,~",format=csv]
 |===
 Day,Part I,Part II,Execution time
-Day 1: Historian Hysteria,✅,✅,2ms
+Day 1: Historian Hysteria,✅,✅,3ms
 Day 2: Red-Nosed Reports,✅,✅,6ms
 Day 3: Mull It Over,✅,✅,1ms
-Day 4: Ceres Search,✅,✅,66ms
+Day 4: Ceres Search,✅,✅,64ms
 Day 5: Print Queue,✅,✅,12ms
-Day 6: Guard Gallivant,✅,✅,456ms
-Day 7: Bridge Repair,✅,✅,200ms
+Day 6: Guard Gallivant,✅,✅,446ms
+Day 7: Bridge Repair,✅,✅,213ms
 Day 8: Resonant Collinearity,✅,✅,2ms
-Day 9: Disk Fragmenter,✅,✅,168ms
+Day 9: Disk Fragmenter,✅,✅,173ms
 Day 10: Hoof It,✅,✅,8ms
 11,,,
 12,,,

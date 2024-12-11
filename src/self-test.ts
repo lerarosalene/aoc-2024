@@ -31,6 +31,8 @@ interface ReportEntry {
   partOne: boolean;
   partTwo: boolean;
   time: number;
+  current: number;
+  total: number;
 }
 
 export async function* generateReport(
@@ -41,10 +43,18 @@ export async function* generateReport(
     csv.parse(raw, { columns: ["day", "file", "answer1", "answer2"] }),
   );
 
-  for (const { day, file, answer1, answer2 } of data) {
+  for (let i = 0; i < data.length; ++i) {
+    const { day, file, answer1, answer2 } = data[i];
     const solver = days.get(+day);
     if (!solver) {
-      yield { day: +day, partOne: false, partTwo: false, time: 0 };
+      yield {
+        day: +day,
+        partOne: false,
+        partTwo: false,
+        time: 0,
+        current: i + 1,
+        total: data.length,
+      };
       continue;
     }
     const input = await fsp.readFile(
@@ -63,7 +73,14 @@ export async function* generateReport(
       Number(solverAnswer2) === Number(answer2) &&
       !isNaN(Number(solverAnswer2));
 
-    yield { day: +day, partOne: result1, partTwo: result2, time: tdiff };
+    yield {
+      day: +day,
+      partOne: result1,
+      partTwo: result2,
+      time: tdiff,
+      current: i + 1,
+      total: data.length,
+    };
   }
 }
 

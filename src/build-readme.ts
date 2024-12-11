@@ -3,13 +3,18 @@ import assert from "node:assert";
 import arg from "arg";
 import { generateReport } from "./self-test";
 import { AssertionError } from "node:assert";
+import ProgressBar from "progress";
 
 const fsp = fs.promises;
 
-async function asyncCollect<T>(generator: AsyncGenerator<T, any, any>) {
+async function asyncCollect<T>(
+  generator: AsyncGenerator<T, any, any>,
+  onEntry?: (entry: T) => void,
+) {
   let result: T[] = [];
   for await (const entry of generator) {
     result.push(entry);
+    onEntry?.(entry);
   }
   return result;
 }
@@ -35,7 +40,20 @@ async function main() {
 
   assert(args["--input"], "--input/-i was provided");
 
-  let report = await asyncCollect(generateReport(args["--input"]));
+  const bar = new ProgressBar("[:bar] (:c/:t)", {
+    total: 50,
+    width: 50,
+  });
+
+  let report = await asyncCollect(generateReport(args["--input"]), (entry) => {
+    bar.update(entry.current / entry.total, {
+      c: entry.current,
+      t: entry.total,
+    });
+  });
+
+  bar.terminate();
+
   const reportMap = report.reduce(
     (acc, entry) => acc.set(entry.day, entry),
     new Map<number, (typeof report)[0]>(),
