@@ -1,6 +1,7 @@
 import assert from "node:assert";
 import fs from "node:fs";
 import p from "node:path";
+import { gzip } from "node:zlib";
 import arg from "arg";
 import { ContinousGrid } from "../../common/continous-grid";
 import { getRegions, key, parseKey, sides } from ".";
@@ -201,7 +202,7 @@ function buildSvg(
   );
   const topOffset = hideCounter ? 0 : TOTAL_ROW_HEIGHT;
   result.push(
-    `<svg width="${width}" height="${height + topOffset}" viewBox="0 0 ${width} ${height + topOffset}" xmlns="http://www.w3.org/2000/svg">`,
+    `<svg width="${width / 2}" height="${(height + topOffset) / 2}" viewBox="0 0 ${width} ${height + topOffset}" xmlns="http://www.w3.org/2000/svg">`,
   );
   result.push(
     `<rect width="${width}" height="${height + topOffset}" x="0" y="0" fill="#333" />`,
@@ -413,6 +414,18 @@ function buildSvg(
   return result.join("\n");
 }
 
+async function writeSvgz(svg: string, path: string) {
+  const gzipped = await new Promise<Buffer>((resolve, reject) => {
+    gzip(Buffer.from(svg), { level: 9 }, (error, result) => {
+      if (error) {
+        return void reject(error);
+      }
+      resolve(result);
+    });
+  });
+  await fsp.writeFile(path, gzipped);
+}
+
 async function main() {
   const args = arg({
     "--input": String,
@@ -444,6 +457,7 @@ async function main() {
   );
 
   const colors = getColors(regions.length);
+  const promises: Array<Promise<any>> = [];
 
   const svg = buildSvg(
     withSegments,
@@ -455,8 +469,14 @@ async function main() {
     hide,
   );
 
-  await fsp.writeFile(oneFrame ? output : p.join(output, `00000.svg`), svg);
+  if (!oneFrame) {
+    await fsp.mkdir(output, { recursive: true });
+  }
+  promises.push(
+    writeSvgz(svg, oneFrame ? output : p.join(output, `0000.svgz`)),
+  );
   if (oneFrame) {
+    await Promise.all(promises);
     return;
   }
   let total = 0;
@@ -473,12 +493,18 @@ async function main() {
       total,
       hide,
     );
-    await fsp.writeFile(
-      p.join(output, `${(i + 1).toString().padStart(5, "0")}.svg`),
-      svg,
+    promises.push(
+      writeSvgz(
+        svg,
+        p.join(output, `${(i + 1).toString().padStart(5, "0")}.svgz`),
+      ),
     );
-    console.log(`${i + 1}/${regions.length}`);
+    if ((i + 1) % 10 === 0 || i + 1 === regions.length) {
+      console.log(`${i + 1}/${regions.length}`);
+    }
   }
+
+  await Promise.all([promises]);
 }
 
 main().catch((error) => {
