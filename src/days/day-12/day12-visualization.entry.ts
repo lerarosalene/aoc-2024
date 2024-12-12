@@ -192,21 +192,25 @@ function buildSvg(
   height: number,
   highlight: number,
   total: number,
+  hideCounter: boolean,
 ): string {
   let result = [];
   result.push(`<?xml version="1.0" standalone="no"?>\n`);
   result.push(
     `<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">`,
   );
+  const topOffset = hideCounter ? 0 : TOTAL_ROW_HEIGHT;
   result.push(
-    `<svg width="${width}" height="${height + TOTAL_ROW_HEIGHT}" viewBox="0 0 ${width} ${height + TOTAL_ROW_HEIGHT}" xmlns="http://www.w3.org/2000/svg">`,
+    `<svg width="${width}" height="${height + topOffset}" viewBox="0 0 ${width} ${height + topOffset}" xmlns="http://www.w3.org/2000/svg">`,
   );
   result.push(
-    `<rect width="${width}" height="${height + TOTAL_ROW_HEIGHT}" x="0" y="0" fill="#333" />`,
+    `<rect width="${width}" height="${height + topOffset}" x="0" y="0" fill="#333" />`,
   );
-  result.push(
-    `<text x="50" y="${TOTAL_ROW_HEIGHT - 50}" style="fill:#eee;" font-family="monospace" font-size="${TOTAL_ROW_HEIGHT - 20}px">${total}</text>`,
-  );
+  if (!hideCounter) {
+    result.push(
+      `<text x="50" y="${topOffset - 50}" style="fill:#eee;" font-family="monospace" font-size="${topOffset - 20}px">${total}</text>`,
+    );
+  }
   for (let i = 0; i < regions.length; ++i) {
     const { region, borderTiles, cornerTiles } = regions[i];
     const color = colors[i];
@@ -219,7 +223,7 @@ function buildSvg(
     for (const k of region) {
       const pt = parseKey(k);
       const tdx = pt.x * TOTAL_TILE_SIZE;
-      const tdy = pt.y * TOTAL_TILE_SIZE + TOTAL_ROW_HEIGHT;
+      const tdy = pt.y * TOTAL_TILE_SIZE + topOffset;
 
       result.push(
         `<rect fill="${hex2}" x="${tdx}" y="${tdy}" width="${TOTAL_TILE_SIZE}" height="${TOTAL_TILE_SIZE}" />`,
@@ -229,7 +233,7 @@ function buildSvg(
     for (const border of borderTiles) {
       if (border.top) {
         const y =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           border.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS / 2;
@@ -245,7 +249,7 @@ function buildSvg(
       }
       if (border.bottom) {
         const y =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           border.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS * 1.5 +
@@ -263,11 +267,11 @@ function buildSvg(
         const x =
           border.point.x * TOTAL_TILE_SIZE + EXTERNAL_GAP + FENCE_THICKNESS / 2;
         const y1 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           border.point.y * TOTAL_TILE_SIZE +
           (border.top ? EXTERNAL_GAP : 0);
         const y2 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           (border.point.y + 1) * TOTAL_TILE_SIZE -
           (border.bottom ? EXTERNAL_GAP : 0);
         result.push(
@@ -281,11 +285,11 @@ function buildSvg(
           FENCE_THICKNESS * 1.5 +
           INTERNAL_GAP * 2;
         const y1 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           border.point.y * TOTAL_TILE_SIZE +
           (border.top ? EXTERNAL_GAP : 0);
         const y2 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           (border.point.y + 1) * TOTAL_TILE_SIZE -
           (border.bottom ? EXTERNAL_GAP : 0);
         result.push(
@@ -298,14 +302,14 @@ function buildSvg(
       if (corner.topLeft) {
         const vx =
           corner.point.x * TOTAL_TILE_SIZE + EXTERNAL_GAP + FENCE_THICKNESS / 2;
-        const vy1 = corner.point.y * TOTAL_TILE_SIZE + TOTAL_ROW_HEIGHT;
+        const vy1 = corner.point.y * TOTAL_TILE_SIZE + topOffset;
         const vy2 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS;
         const hy =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS / 2;
@@ -325,14 +329,14 @@ function buildSvg(
           EXTERNAL_GAP +
           FENCE_THICKNESS * 1.5 +
           2 * INTERNAL_GAP;
-        const vy1 = corner.point.y * TOTAL_TILE_SIZE + TOTAL_ROW_HEIGHT;
+        const vy1 = corner.point.y * TOTAL_TILE_SIZE + topOffset;
         const vy2 =
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS +
-          TOTAL_ROW_HEIGHT;
+          topOffset;
         const hy =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS / 2;
@@ -351,14 +355,14 @@ function buildSvg(
       if (corner.bottomLeft) {
         const vx =
           corner.point.x * TOTAL_TILE_SIZE + EXTERNAL_GAP + FENCE_THICKNESS / 2;
-        const vy1 = (corner.point.y + 1) * TOTAL_TILE_SIZE + TOTAL_ROW_HEIGHT;
+        const vy1 = (corner.point.y + 1) * TOTAL_TILE_SIZE + topOffset;
         const vy2 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           (corner.point.y + 1) * TOTAL_TILE_SIZE -
           EXTERNAL_GAP -
           FENCE_THICKNESS;
         const hy =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS * 1.5 +
@@ -379,14 +383,14 @@ function buildSvg(
           EXTERNAL_GAP +
           FENCE_THICKNESS * 1.5 +
           2 * INTERNAL_GAP;
-        const vy1 = (corner.point.y + 1) * TOTAL_TILE_SIZE + TOTAL_ROW_HEIGHT;
+        const vy1 = (corner.point.y + 1) * TOTAL_TILE_SIZE + topOffset;
         const vy2 =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           (corner.point.y + 1) * TOTAL_TILE_SIZE -
           EXTERNAL_GAP -
           FENCE_THICKNESS;
         const hy =
-          TOTAL_ROW_HEIGHT +
+          topOffset +
           corner.point.y * TOTAL_TILE_SIZE +
           EXTERNAL_GAP +
           FENCE_THICKNESS * 1.5 +
@@ -413,12 +417,18 @@ async function main() {
   const args = arg({
     "--input": String,
     "--output": String,
+    "--hide-counter": Boolean,
+    "--one-frame": Boolean,
     "-i": "--input",
     "-o": "--output",
+    "-H": "--hide-counter",
+    "-O": "--one-frame",
   });
 
   const input = args["--input"];
   const output = args["--output"];
+  const hide = Boolean(args["--hide-counter"] || args["--one-frame"]);
+  const oneFrame = Boolean(args["--one-frame"]);
 
   assert(input, "--input/-i is provided");
   assert(output, "--output/-o is provided");
@@ -442,9 +452,13 @@ async function main() {
     grid.height * TOTAL_TILE_SIZE,
     -1,
     0,
+    hide,
   );
 
-  await fsp.writeFile(p.join(output, `00000.svg`), svg);
+  await fsp.writeFile(oneFrame ? output : p.join(output, `00000.svg`), svg);
+  if (oneFrame) {
+    return;
+  }
   let total = 0;
 
   for (let i = 0; i < regions.length; ++i) {
@@ -457,6 +471,7 @@ async function main() {
       grid.height * TOTAL_TILE_SIZE,
       i,
       total,
+      hide,
     );
     await fsp.writeFile(
       p.join(output, `${(i + 1).toString().padStart(5, "0")}.svg`),
