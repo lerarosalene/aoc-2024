@@ -37,6 +37,17 @@ async function main() {
     platform: "node",
     define,
   });
+
+  const entries = await glob("src/**/*.entry.ts");
+  for (const entry of entries) {
+    await esbuild.build({
+      entryPoints: [entry],
+      bundle: true,
+      minify: true,
+      outfile: p.join("dist", p.basename(entry, ".entry.ts") + ".js"),
+      platform: "node",
+    });
+  }
 }
 
 main().catch((error) => {

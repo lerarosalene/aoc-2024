@@ -10,11 +10,11 @@ function* neighbours(pt: Point): IterableIterator<Point> {
   yield { x: x, y: y + 1 };
 }
 
-function key(point: Point) {
+export function key(point: Point) {
   return `${point.x}:${point.y}`;
 }
 
-function parseKey(key: string): Point {
+export function parseKey(key: string): Point {
   const [x, y] = key.split(":").map((p) => Number(p));
   return { x, y };
 }
@@ -81,7 +81,9 @@ function addSegment(
   bucket.push(coordinate);
 }
 
-function countSides(segments: Map<number, number[]>) {
+export type SegmentGroup = Map<number, number[]>;
+
+function countSides(segments: SegmentGroup) {
   let total = 0;
   for (const arr of segments.values()) {
     if (!arr.length) {
@@ -98,7 +100,7 @@ function countSides(segments: Map<number, number[]>) {
   return total;
 }
 
-function sides(region: Set<string>) {
+function getSegments(region: Set<string>): SegmentGroup[] {
   let hLSegments = new Map<number, number[]>(); // y -> [x]
   let hRSegments = new Map<number, number[]>(); // y -> [x]
   let vUSegments = new Map<number, number[]>(); // x -> [y]
@@ -123,16 +125,16 @@ function sides(region: Set<string>) {
     }
   }
 
-  return (
-    countSides(hLSegments) +
-    countSides(hRSegments) +
-    countSides(vUSegments) +
-    countSides(vDSegments)
-  );
+  return [hLSegments, hRSegments, vUSegments, vDSegments];
 }
 
-export function partOne(input: string) {
-  const grid = ContinousGrid.parseCharGrid(input);
+export function sides(region: Set<string>) {
+  return getSegments(region)
+    .map((group) => countSides(group))
+    .reduce((a, b) => a + b);
+}
+
+export function getRegions(grid: IGrid<string>) {
   const regions: Array<Set<string>> = [];
   const totalVisited = new Set<string>();
   let start: Point | null = { x: 0, y: 0 };
@@ -143,22 +145,20 @@ export function partOne(input: string) {
     next.forEach((k) => totalVisited.add(k));
     start = findNext(grid, totalVisited);
   } while (start);
+
+  return regions;
+}
+
+export function partOne(input: string) {
+  const grid = ContinousGrid.parseCharGrid(input);
+  const regions = getRegions(grid);
 
   return regions.map((r) => perimeter(r) * r.size).reduce((a, b) => a + b);
 }
 
 export function partTwo(input: string) {
   const grid = ContinousGrid.parseCharGrid(input);
-  const regions: Array<Set<string>> = [];
-  const totalVisited = new Set<string>();
-  let start: Point | null = { x: 0, y: 0 };
-
-  do {
-    const next = buildRegion(grid, start);
-    regions.push(next);
-    next.forEach((k) => totalVisited.add(k));
-    start = findNext(grid, totalVisited);
-  } while (start);
+  const regions = getRegions(grid);
 
   return regions.map((r) => sides(r) * r.size).reduce((a, b) => a + b);
 }
