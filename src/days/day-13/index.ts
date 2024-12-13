@@ -58,12 +58,18 @@ function correctMachineP2(machine: Machine): Machine {
 function solve(machine: Machine): { a: number; b: number } | null {
   const bNum = machine.prize.y * machine.a.x - machine.a.y * machine.prize.x;
   const bDen = machine.b.y * machine.a.x - machine.a.y * machine.b.x;
+  if (bNum === 0 && bDen === 0) {
+    throw new Error("0/0 encountered, infinitely many solutions");
+  }
   const b = Math.round(bNum / bDen);
   if (b * bDen !== bNum) {
     return null; // real b is fractional
   }
   const aNum = machine.prize.x - b * machine.b.x;
   const aDen = machine.a.x;
+  if (aNum === 0 && aDen === 0) {
+    throw new Error("0/0 encountered, infinitely many solutions");
+  }
   const a = Math.round(aNum / aDen);
   if (a * aDen !== aNum) {
     return null; // real a is fractional
