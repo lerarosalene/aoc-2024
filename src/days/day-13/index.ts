@@ -68,7 +68,7 @@ function solve(machine: Machine): { a: number; b: number } | null {
   if (a * aDen !== aNum) {
     return null; // real a is fractional
   }
-  if (a < 0n || b < 0n) {
+  if (a < 0 || b < 0) {
     return null;
   }
   return { a, b };
@@ -83,7 +83,7 @@ export function partOne(input: string) {
   return machines
     .map(solve)
     .filter(exists)
-    .filter(({ a, b }) => a <= 100n && b <= 100n)
+    .filter(({ a, b }) => a <= 100 && b <= 100)
     .map(({ a, b }) => a * 3 + b)
     .reduce((a, b) => a + b, 0);
 }
