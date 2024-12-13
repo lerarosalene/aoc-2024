@@ -18,8 +18,8 @@ function parseMachine(section: string): Machine {
   const pMatch = prizeLine.match(/Prize: X=(\d+), Y=(\d+)/);
 
   assert(aMatch, "Button A line is correct");
-  assert(bMatch, "Button A line is correct");
-  assert(pMatch, "Button A line is correct");
+  assert(bMatch, "Button B line is correct");
+  assert(pMatch, "Prize line is correct");
 
   const a: Point = { x: Number(aMatch[1]), y: Number(aMatch[2]) };
   const b: Point = { x: Number(bMatch[1]), y: Number(bMatch[2]) };
