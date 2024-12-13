@@ -10,8 +10,10 @@ import * as Day9 from "./day-9";
 import * as Day10 from "./day-10";
 import * as Day11 from "./day-11";
 import * as Day12 from "./day-12";
+import * as Day13 from "./day-13";
 
-type SolverResult = number | string | Promise<number> | Promise<string>;
+type SolverResolvedResult = number | bigint | string;
+type SolverResult = SolverResolvedResult | Promise<SolverResolvedResult>;
 
 interface Solver {
   partOne(input: string): SolverResult;
@@ -32,3 +34,4 @@ days.set(9, Day9);
 days.set(10, Day10);
 days.set(11, Day11);
 days.set(12, Day12);
+days.set(13, Day13);

@@ -46,14 +46,14 @@ Day 2: Red-Nosed Reports,✅,✅,5ms
 Day 3: Mull It Over,✅,✅,1ms
 Day 4: Ceres Search,✅,✅,64ms
 Day 5: Print Queue,✅,✅,12ms
-Day 6: Guard Gallivant,✅,✅,443ms
-Day 7: Bridge Repair,✅,✅,206ms
+Day 6: Guard Gallivant,✅,✅,449ms
+Day 7: Bridge Repair,✅,✅,205ms
 Day 8: Resonant Collinearity,✅,✅,2ms
-Day 9: Disk Fragmenter,✅,✅,168ms
-Day 10: Hoof It,✅,✅,8ms
-Day 11: Plutonian Pebbles,✅,✅,52ms
-Day 12: Garden Groups,✅,✅,709ms
-13,,,
+Day 9: Disk Fragmenter,✅,✅,149ms
+Day 10: Hoof It,✅,✅,9ms
+Day 11: Plutonian Pebbles,✅,✅,54ms
+Day 12: Garden Groups,✅,✅,746ms
+Day 13: Claw Contraption,✅,✅,2ms
 14,,,
 15,,,
 16,,,

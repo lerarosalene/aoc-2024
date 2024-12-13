@@ -32,6 +32,7 @@ const TITLES = [
   "Day 10: Hoof It",
   "Day 11: Plutonian Pebbles",
   "Day 12: Garden Groups",
+  "Day 13: Claw Contraption",
 ];
 
 async function main() {
