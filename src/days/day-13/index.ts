@@ -1,14 +1,10 @@
 import assert from "node:assert";
-
-interface BigPoint {
-  x: bigint;
-  y: bigint;
-}
+import { Point } from "../../common/point";
 
 interface Machine {
-  a: BigPoint;
-  b: BigPoint;
-  prize: BigPoint;
+  a: Point;
+  b: Point;
+  prize: Point;
 }
 
 function parseMachine(section: string): Machine {
@@ -25,9 +21,9 @@ function parseMachine(section: string): Machine {
   assert(bMatch, "Button A line is correct");
   assert(pMatch, "Button A line is correct");
 
-  const a: BigPoint = { x: BigInt(aMatch[1]), y: BigInt(aMatch[2]) };
-  const b: BigPoint = { x: BigInt(bMatch[1]), y: BigInt(bMatch[2]) };
-  const prize: BigPoint = { x: BigInt(pMatch[1]), y: BigInt(pMatch[2]) };
+  const a: Point = { x: Number(aMatch[1]), y: Number(aMatch[2]) };
+  const b: Point = { x: Number(bMatch[1]), y: Number(bMatch[2]) };
+  const prize: Point = { x: Number(pMatch[1]), y: Number(pMatch[2]) };
   return { a, b, prize };
 }
 
@@ -40,7 +36,7 @@ function parse(input: string) {
   return sections.map(parseMachine);
 }
 
-const P2_OFFSET = 10_000_000_000_000n;
+const P2_OFFSET = 10_000_000_000_000;
 
 function correctMachineP2(machine: Machine): Machine {
   return {
@@ -59,28 +55,23 @@ function correctMachineP2(machine: Machine): Machine {
   };
 }
 
-function solve(machine: Machine): { a: bigint; b: bigint } | null {
-  try {
-    const bNum = machine.prize.y * machine.a.x - machine.a.y * machine.prize.x;
-    const bDen = machine.b.y * machine.a.x - machine.a.y * machine.b.x;
-    const b = bNum / bDen;
-    if (b * bDen !== bNum) {
-      return null; // real b is fractional
-    }
-    const aNum = machine.prize.x - b * machine.b.x;
-    const aDen = machine.a.x;
-    const a = aNum / aDen;
-    if (a * aDen !== aNum) {
-      return null; // real a is fractional
-    }
-    if (a < 0n || b < 0n) {
-      return null;
-    }
-    return { a, b };
-  } catch (error) {
-    // division by zero
+function solve(machine: Machine): { a: number; b: number } | null {
+  const bNum = machine.prize.y * machine.a.x - machine.a.y * machine.prize.x;
+  const bDen = machine.b.y * machine.a.x - machine.a.y * machine.b.x;
+  const b = Math.round(bNum / bDen);
+  if (b * bDen !== bNum) {
+    return null; // real b is fractional
+  }
+  const aNum = machine.prize.x - b * machine.b.x;
+  const aDen = machine.a.x;
+  const a = Math.round(aNum / aDen);
+  if (a * aDen !== aNum) {
+    return null; // real a is fractional
+  }
+  if (a < 0n || b < 0n) {
     return null;
   }
+  return { a, b };
 }
 
 function exists<T>(input: T | null | undefined): input is T {
@@ -93,8 +84,8 @@ export function partOne(input: string) {
     .map(solve)
     .filter(exists)
     .filter(({ a, b }) => a <= 100n && b <= 100n)
-    .map(({ a, b }) => a * 3n + b)
-    .reduce((a, b) => a + b, 0n);
+    .map(({ a, b }) => a * 3 + b)
+    .reduce((a, b) => a + b, 0);
 }
 
 export function partTwo(input: string) {
@@ -103,6 +94,6 @@ export function partTwo(input: string) {
   return corrected
     .map(solve)
     .filter(exists)
-    .map(({ a, b }) => a * 3n + b)
-    .reduce((a, b) => a + b, 0n);
+    .map(({ a, b }) => a * 3 + b)
+    .reduce((a, b) => a + b, 0);
 }
