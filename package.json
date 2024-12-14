@@ -10,7 +10,7 @@
     "build:tests": "node build-tests.js",
     "test": "node build-tests.js && node --enable-source-maps --test dist/tests.js",
     "full-test": "node build.js && node --enable-source-maps dist/aoc-2024.js -f inputs/selftest.txt",
-    "readme": "node build.js && node --enable-source-maps dist/build-readme.js -i inputs/selftest.txt",
+    "readme": "node build.js && node --enable-source-maps dist/update-readme.js -t inputs/selftest.txt",
     "vis:day12": "node build.js && node dist/day12-visualization.js -i inputs/day-12.txt -o visualizations/day12/"
   },
   "keywords": [

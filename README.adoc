@@ -47,25 +47,14 @@ Day 3: Mull It Over,✅,✅,1ms
 Day 4: Ceres Search,✅,✅,64ms
 Day 5: Print Queue,✅,✅,13ms
 Day 6: Guard Gallivant,✅,✅,486ms
-Day 7: Bridge Repair,✅,✅,206ms
+Day 7: Bridge Repair,✅,✅,200ms
 Day 8: Resonant Collinearity,✅,✅,2ms
 Day 9: Disk Fragmenter,✅,✅,178ms
 Day 10: Hoof It,✅,✅,12ms
 Day 11: Plutonian Pebbles,✅,✅,41ms
 Day 12: Garden Groups,✅,✅,716ms
 Day 13: Claw Contraption,✅,✅,2ms
-Day 14: Restroom Redoubt,✅,✅,264ms
-15,,,
-16,,,
-17,,,
-18,,,
-19,,,
-20,,,
-21,,,
-22,,,
-23,,,
-24,,,
-25,,,
+Day 14: Restroom Redoubt,✅,✅,260ms
 |===
 
 == Full-test mode
