@@ -34,6 +34,7 @@ async function main() {
       entryPoints: [entry],
       bundle: true,
       minify: true,
+      sourcemap: true,
       outfile: p.join("dist", p.basename(entry, ".entry.ts") + ".js"),
       platform: "node",
       define,
