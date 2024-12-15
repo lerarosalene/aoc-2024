@@ -55,6 +55,7 @@ Day 11: Plutonian Pebbles,✅,✅,41ms
 Day 12: Garden Groups,✅,✅,716ms
 Day 13: Claw Contraption,✅,✅,2ms
 Day 14: Restroom Redoubt,✅,✅,260ms
+Day 15: Warehouse Woes,✅,✅,3369ms
 |===
 
 == Full-test mode
