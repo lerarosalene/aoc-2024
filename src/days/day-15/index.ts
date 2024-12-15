@@ -3,7 +3,7 @@ import { ContinousGrid } from "../../common/continous-grid";
 import type { Point } from "../../common/point";
 import type { IGrid } from "../../common/grid";
 
-function parse(input: string) {
+export function parse(input: string) {
   const [map, instructions] = input.split("\n\n");
   const grid = ContinousGrid.parseCharGrid(map);
   let robot: Point | null = null;
@@ -97,7 +97,7 @@ function getCollidedBoxes(
   return collided.length > 0 ? collided : null;
 }
 
-function attemptMoveP2(
+export function attemptMoveP2(
   grid: IGrid<string>,
   robot: Point,
   boxes: Point[],
