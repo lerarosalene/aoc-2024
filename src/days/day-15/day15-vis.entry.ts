@@ -6,7 +6,7 @@ import arg from "arg";
 import { ContinousGrid } from "../../common/continous-grid";
 import { IGrid } from "../../common/grid";
 import { Point } from "../../common/point";
-import { attemptMoveP2, parse } from ".";
+import { attemptMoveP2, key, parse } from ".";
 
 const fsp = fs.promises;
 
@@ -42,17 +42,16 @@ function* states(input: string) {
   for (const box of boxes) {
     box.x *= 2;
   }
+  let boxMap = new Map<string, Point>();
+  for (const box of boxes) {
+    boxMap.set(key(box), box);
+    boxMap.set(key({ x: box.x + 1, y: box.y }), box);
+  }
   yield { wideGrid, robot, boxes };
   for (const symbol of instructions.trim()) {
-    let nextState = attemptMoveP2(wideGrid, robot, boxes, symbol);
-    if (nextState === null) {
-      continue;
-    }
-    robot = nextState.robot;
-    boxes = nextState.boxes;
+    attemptMoveP2(wideGrid, robot, boxMap, symbol);
     yield { wideGrid, robot, boxes };
   }
-  return boxes.map((box) => box.y * 100 + box.x).reduce((a, b) => a + b, 0);
 }
 
 function buildSvg(state: State) {

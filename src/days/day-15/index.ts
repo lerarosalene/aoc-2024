@@ -44,21 +44,17 @@ function direction(input: string): Point {
   }
 }
 
-function key(point: Point) {
+export function key(point: Point) {
   return `${point.x}:${point.y}`;
 }
 
 function attemptMoveP1(
   grid: IGrid<string>,
   robot: Point,
-  boxes: Point[],
+  boxMap: Map<string, Point>,
   instruction: string,
 ) {
-  let boxMap = new Map<string, Point>();
   let movedBoxes = new Set<Point>();
-  for (const box of boxes) {
-    boxMap.set(key(box), box);
-  }
   const dir = direction(instruction);
   let nextRobot: Point = { x: robot.x + dir.x, y: robot.y + dir.y };
   let collision = { ...nextRobot };
@@ -69,20 +65,25 @@ function attemptMoveP1(
     collision.y += dir.y;
   }
   if (grid.at(nextRobot.x, nextRobot.y) === "#") {
-    return null;
+    return;
   }
   for (const movedBox of movedBoxes) {
     if (grid.at(movedBox.x + dir.x, movedBox.y + dir.y) === "#") {
-      return null;
+      return;
     }
   }
 
-  return {
-    robot: nextRobot,
-    boxes: boxes.map((box) =>
-      movedBoxes.has(box) ? { x: box.x + dir.x, y: box.y + dir.y } : box,
-    ),
-  };
+  robot.x += dir.x;
+  robot.y += dir.y;
+
+  for (const box of movedBoxes) {
+    if (boxMap.get(key(box)) === box) {
+      boxMap.delete(key(box));
+    }
+    box.x += dir.x;
+    box.y += dir.y;
+    boxMap.set(key(box), box);
+  }
 }
 
 function exists<T>(item: T | null | undefined): item is T {
@@ -100,15 +101,10 @@ function getCollidedBoxes(
 export function attemptMoveP2(
   grid: IGrid<string>,
   robot: Point,
-  boxes: Point[],
+  boxMap: Map<string, Point>,
   instruction: string,
 ) {
-  let boxMap = new Map<string, Point>();
   let movedBoxes = new Set<Point>();
-  for (const box of boxes) {
-    boxMap.set(key(box), box);
-    boxMap.set(key({ x: box.x + 1, y: box.y }), box);
-  }
   const dir = direction(instruction);
   let nextRobot: Point = { x: robot.x + dir.x, y: robot.y + dir.y };
   let collisions: Point[] = [{ ...nextRobot }];
@@ -126,23 +122,32 @@ export function attemptMoveP2(
   }
 
   if (grid.at(nextRobot.x, nextRobot.y) === "#") {
-    return null;
+    return;
   }
   for (const movedBox of movedBoxes) {
     if (grid.at(movedBox.x + dir.x, movedBox.y + dir.y) === "#") {
-      return null;
+      return;
     }
     if (grid.at(movedBox.x + dir.x + 1, movedBox.y + dir.y) === "#") {
-      return null;
+      return;
     }
   }
 
-  return {
-    robot: nextRobot,
-    boxes: boxes.map((box) =>
-      movedBoxes.has(box) ? { x: box.x + dir.x, y: box.y + dir.y } : box,
-    ),
-  };
+  robot.x += dir.x;
+  robot.y += dir.y;
+
+  for (const box of movedBoxes.values()) {
+    if (boxMap.get(key(box)) === box) {
+      boxMap.delete(key(box));
+    }
+    if (boxMap.get(key({ x: box.x + 1, y: box.y })) === box) {
+      boxMap.delete(key({ x: box.x + 1, y: box.y }));
+    }
+    box.x += dir.x;
+    box.y += dir.y;
+    boxMap.set(key(box), box);
+    boxMap.set(key({ x: box.x + 1, y: box.y }), box);
+  }
 }
 
 export function stateToStringP1(
@@ -196,13 +201,12 @@ export function stateToStringP2(
 
 export function partOne(input: string) {
   let { grid, robot, boxes, instructions } = parse(input);
+  let boxMap = new Map<string, Point>();
+  for (const box of boxes) {
+    boxMap.set(key(box), box);
+  }
   for (const symbol of instructions.trim()) {
-    let nextState = attemptMoveP1(grid, robot, boxes, symbol);
-    if (nextState === null) {
-      continue;
-    }
-    robot = nextState.robot;
-    boxes = nextState.boxes;
+    attemptMoveP1(grid, robot, boxMap, symbol);
   }
   return boxes.map((box) => box.y * 100 + box.x).reduce((a, b) => a + b, 0);
 }
@@ -226,13 +230,13 @@ export function partTwo(input: string) {
   for (const box of boxes) {
     box.x *= 2;
   }
+  let boxMap = new Map<string, Point>();
+  for (const box of boxes) {
+    boxMap.set(key(box), box);
+    boxMap.set(key({ x: box.x + 1, y: box.y }), box);
+  }
   for (const symbol of instructions.trim()) {
-    let nextState = attemptMoveP2(wideGrid, robot, boxes, symbol);
-    if (nextState === null) {
-      continue;
-    }
-    robot = nextState.robot;
-    boxes = nextState.boxes;
+    attemptMoveP2(wideGrid, robot, boxMap, symbol);
   }
   return boxes.map((box) => box.y * 100 + box.x).reduce((a, b) => a + b, 0);
 }
