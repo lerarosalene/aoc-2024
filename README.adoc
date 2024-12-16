@@ -56,6 +56,7 @@ Day 12: Garden Groups,✅,✅,716ms
 Day 13: Claw Contraption,✅,✅,2ms
 Day 14: Restroom Redoubt,✅,✅,260ms
 Day 15: Warehouse Woes,✅,✅,35ms
+Day 16: Reindeer Maze,✅,✅,1192ms
 |===
 
 == Full-test mode
