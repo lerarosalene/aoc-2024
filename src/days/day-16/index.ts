@@ -3,27 +3,27 @@ import { ContinousGrid } from "../../common/continous-grid";
 import type { Point } from "../../common/point";
 import { IGrid } from "../../common/grid";
 
-interface State {
+export interface State {
   x: number;
   y: number;
   direction: "n" | "w" | "e" | "s";
 }
 
-interface SearchEntry {
+export interface SearchEntry {
   state: State;
   cost: number;
   visited: Set<string>;
 }
 
-function key(state: State) {
+export function key(state: State) {
   return `${state.x}:${state.y}:${state.direction}`;
 }
 
-function costKey(entry: SearchEntry) {
+export function costKey(entry: SearchEntry) {
   return `${key(entry.state)}:${entry.cost}`;
 }
 
-function posKey(state: State) {
+export function posKey(state: State) {
   return `${state.x}:${state.y}`;
 }
 
@@ -60,12 +60,12 @@ function rotateDirection(
   }
 }
 
-function rotate(state: State, clockwise: boolean): State {
+export function rotate(state: State, clockwise: boolean): State {
   const { x, y, direction } = state;
   return { x, y, direction: rotateDirection(direction, clockwise) };
 }
 
-function forward(state: State): State {
+export function forward(state: State): State {
   const { x, y, direction } = state;
   switch (direction) {
     case "n":
@@ -81,14 +81,14 @@ function forward(state: State): State {
   }
 }
 
-function isValidPosition(grid: IGrid<string>, position: Point) {
+export function isValidPosition(grid: IGrid<string>, position: Point) {
   const inBoundsX = position.x >= 0 && position.x < grid.width;
   const inBoundsY = position.y >= 0 && position.y < grid.height;
   const notAWall = grid.at(position.x, position.y) !== "#";
   return inBoundsX && inBoundsY && notAWall;
 }
 
-function getOrDefault<K, V>(map: Map<K, V>, key: K, def: V): V {
+export function getOrDefault<K, V>(map: Map<K, V>, key: K, def: V): V {
   return map.get(key) ?? def;
 }
 
@@ -192,7 +192,7 @@ export function printTilesP2(grid: IGrid<string>, tiles: Set<string>) {
   return debugGrid.toString();
 }
 
-function mergeAddSearchEntry(
+export function mergeAddSearchEntry(
   next: Map<string, SearchEntry>,
   key: string,
   entry: SearchEntry,
