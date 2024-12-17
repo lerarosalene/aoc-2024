@@ -111,8 +111,8 @@ async function main() {
     const p2answer = await solver.partTwo(input);
     const end = process.hrtime.bigint();
     const tdiff = Number((end - start) / 1_000_000n);
-    const result1 = Number(p1answer) === Number(test.answer1);
-    const result2 = Number(p2answer) === Number(test.answer2);
+    const result1 = String(p1answer) === test.answer1;
+    const result2 = String(p2answer) === test.answer2;
     setResult(results, { day, result1, result2, time: tdiff });
   }
 

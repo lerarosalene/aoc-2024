@@ -14,6 +14,7 @@ import * as Day13 from "./day-13";
 import * as Day14 from "./day-14";
 import * as Day15 from "./day-15";
 import * as Day16 from "./day-16";
+import * as Day17 from "./day-17";
 
 type SolverResolvedResult = number | bigint | string;
 type SolverResult = SolverResolvedResult | Promise<SolverResolvedResult>;
@@ -41,3 +42,4 @@ days.set(13, Day13);
 days.set(14, Day14);
 days.set(15, Day15);
 days.set(16, Day16);
+days.set(17, Day17);

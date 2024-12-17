@@ -66,12 +66,8 @@ export async function* generateReport(
     const solverAnswer2 = await solver.partTwo(input);
     const endTime = process.hrtime.bigint();
     const tdiff = Number(endTime - startTime) / 1e6;
-    const result1 =
-      Number(solverAnswer1) === Number(answer1) &&
-      !isNaN(Number(solverAnswer1));
-    const result2 =
-      Number(solverAnswer2) === Number(answer2) &&
-      !isNaN(Number(solverAnswer2));
+    const result1 = String(solverAnswer1) === answer1;
+    const result2 = String(solverAnswer2) === answer2;
 
     yield {
       day: +day,
