@@ -61,7 +61,7 @@ Day 13: Claw Contraption,✅,✅,2ms
 Day 14: Restroom Redoubt,✅,✅,260ms
 Day 15: Warehouse Woes,✅,✅,35ms
 Day 16: Reindeer Maze,✅,✅,1192ms
-Day 17: Chronospatial Computer,✅,✅,10ms
+Day 17: Chronospatial Computer,✅,✅,5ms
 |===
 
 == Full-test mode
