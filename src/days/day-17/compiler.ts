@@ -125,6 +125,12 @@ function compileNode(
         let _: never = opcode;
     }
   }
+  if (
+    node.instructions.length === 0 ||
+    node.instructions[node.instructions.length - 1].opcode !== OpCode.JNZ
+  ) {
+    code.push(isLast ? `state = -1` : `state += 1;`);
+  }
   code.push(`break;`);
   return code;
 }
