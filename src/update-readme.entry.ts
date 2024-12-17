@@ -62,10 +62,9 @@ async function main() {
     "-d": "--day",
   });
 
-  const days = args["--day"];
+  const days = args["--day"] ?? [];
   const testFile = args["--test-location"];
 
-  assert(days, "day(s) must be provided (-d/--day)");
   assert(testFile, "path to test .csv must be provided (-t/--test-location)");
 
   const results = await fsp
