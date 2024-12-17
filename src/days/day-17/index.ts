@@ -178,52 +178,27 @@ export function partOne(input: string) {
 export function partTwo(input: string) {
   const program = parse(input);
   let current = [0n];
-  let tripletCount = Math.floor(program.bytecode.length / 3);
-  for (let triplet = 0; triplet < tripletCount; ++triplet) {
+  for (let digit = 0; digit < program.bytecode.length; ++digit) {
     let next: bigint[] = [];
     for (const prefix of current) {
-      for (let i = 0n; i < 8n ** 3n; ++i) {
-        const candidate = prefix * 8n ** 3n + i;
+      for (let i = 0n; i < 8n; ++i) {
+        const candidate = prefix * 8n + i;
         const result = Runner.run(program, candidate);
         const matchCount = lastMatchLength(program, result);
-        if (matchCount === program.bytecode.length) {
-          return candidate;
-        }
-        if (matchCount === (triplet + 1) * 3) {
+        if (matchCount === digit + 1) {
           next.push(candidate);
         }
       }
     }
     current = next;
   }
-  let results: bigint[] = [];
-  for (let remainderLength = 1; remainderLength < 4; ++remainderLength) {
-    for (const prefix of current) {
-      for (
-        let lastBit = 0n;
-        lastBit < 8n ** BigInt(remainderLength);
-        ++lastBit
-      ) {
-        const candidate = prefix * 8n ** BigInt(remainderLength) + lastBit;
-        const result = Runner.run(program, candidate);
-        const matchCount = lastMatchLength(program, result);
-        if (
-          matchCount === program.bytecode.length &&
-          result.length === program.bytecode.length
-        ) {
-          results.push(candidate);
-        }
-      }
+
+  let minResult = current[0];
+  for (let i = 1; i < current.length; ++i) {
+    if (minResult > current[i]) {
+      minResult = current[i];
     }
   }
-  if (results.length === 0) {
-    return -1;
-  }
-  let minResult = results[0];
-  for (let i = 1; i < results.length; ++i) {
-    if (minResult > results[i]) {
-      minResult = results[i];
-    }
-  }
+
   return minResult;
 }
