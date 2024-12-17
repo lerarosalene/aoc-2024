@@ -50,10 +50,6 @@ export function partOne(input: string) {
   return f().join(",");
 }
 
-function debugPrint(number: bigint) {
-  return number.toString(8);
-}
-
 interface DFSParams {
   f: Function;
   program: Program;
