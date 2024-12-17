@@ -1,6 +1,4 @@
-import assert from "node:assert";
 import { lines } from "../../common/utils";
-import { COMBO_OPCODES, OpCode } from "./opcodes";
 import { compile } from "./compiler";
 
 export type Registers = [bigint, bigint, bigint];
@@ -19,7 +17,9 @@ export function parse(input: string): Program {
   const registers = lines(registersChunk).map((line) =>
     BigInt(line.split(":")[1].trim()),
   );
-  assert.equal(registers.length, 3, "there should be 3 registers");
+  if (registers.length !== 3) {
+    throw new Error("there should be 3 registers");
+  }
 
   const bytecode = bytecodeChunk
     .split(":")[1]

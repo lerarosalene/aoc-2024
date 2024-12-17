@@ -1,4 +1,3 @@
-import assert from "node:assert";
 import { COMBO_OPCODES, OpCode } from "./opcodes";
 import type { Program, Registers } from ".";
 
@@ -41,7 +40,9 @@ function debugSerializeOperand(opcode: number, operand: number) {
 
 function debugSerializeInstruction(opcode: number, operand: number) {
   const operation = OpCode[opcode]?.toLowerCase() ?? null;
-  assert(operation, `illegal opcode ${opcode}`);
+  if (!operation) {
+    throw new Error(`illegal opcode ${opcode}`);
+  }
   return `${operation} ${debugSerializeOperand(opcode, operand)}`;
 }
 
@@ -128,7 +129,7 @@ function compileNode(
   return code;
 }
 
-export function compile(program: Program) {
+export function compileToCode(program: Program) {
   let code = preamble(program.registers);
   let instructions: Instruction[] = [];
   for (let i = 0; i < program.bytecode.length; i += 2) {
@@ -171,5 +172,9 @@ export function compile(program: Program) {
 
   code.push(footer);
 
-  return new Function("override", code.join(""));
+  return code.join("");
+}
+
+export function compile(program: Program) {
+  return new Function("override", compileToCode(program));
 }
