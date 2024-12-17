@@ -50,31 +50,41 @@ export function partOne(input: string) {
   return f().join(",");
 }
 
+function debugPrint(number: bigint) {
+  return number.toString(8);
+}
+
+interface DFSParams {
+  f: Function;
+  program: Program;
+  prefix: bigint;
+  digit: number;
+}
+
+function dfs(params: DFSParams): number {
+  const { f, program, prefix, digit } = params;
+  for (let i = 0n; i < 8n; ++i) {
+    const candidate = prefix * 8n + i;
+    const result = f(candidate);
+    const matchCount = lastMatchLength(program, result);
+    if (
+      matchCount === program.bytecode.length &&
+      result.length === program.bytecode.length
+    ) {
+      return Number(candidate);
+    }
+    if (matchCount === digit + 1) {
+      const next = dfs({ f, program, prefix: candidate, digit: digit + 1 });
+      if (next > -1) {
+        return next;
+      }
+    }
+  }
+  return -1;
+}
+
 export function partTwo(input: string) {
   const program = parse(input);
   const f = compile(program);
-  let current = [0n];
-  for (let digit = 0; digit < program.bytecode.length; ++digit) {
-    let next: bigint[] = [];
-    for (const prefix of current) {
-      for (let i = 0n; i < 8n; ++i) {
-        const candidate = prefix * 8n + i;
-        const result = f(candidate);
-        const matchCount = lastMatchLength(program, result);
-        if (matchCount === digit + 1) {
-          next.push(candidate);
-        }
-      }
-    }
-    current = next;
-  }
-
-  let minResult = current[0];
-  for (let i = 1; i < current.length; ++i) {
-    if (minResult > current[i]) {
-      minResult = current[i];
-    }
-  }
-
-  return minResult;
+  return dfs({ f, program, prefix: 0n, digit: 0 });
 }
