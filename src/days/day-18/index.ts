@@ -87,10 +87,19 @@ export function partOne(input: string) {
 
 export function partTwo(input: string) {
   const obstacles = parse(input);
-  for (let i = 0; i <= obstacles.length; ++i) {
-    if (findPath(obstacles, i) === -1) {
-      return `${obstacles[i - 1].x},${obstacles[i - 1].y}`;
+  let latestPossible = 0;
+  let firstImpossible = obstacles.length;
+
+  while (firstImpossible - latestPossible > 1) {
+    let middle = Math.trunc((firstImpossible + latestPossible) / 2);
+    const isPossible = findPath(obstacles, middle) > -1;
+    if (isPossible) {
+      latestPossible = middle;
+    } else {
+      firstImpossible = middle;
     }
   }
-  return "-1,-1";
+
+  const bummer = obstacles[firstImpossible - 1];
+  return `${bummer.x},${bummer.y}`;
 }

@@ -62,7 +62,7 @@ Day 14: Restroom Redoubt,✅,✅,260ms
 Day 15: Warehouse Woes,✅,✅,35ms
 Day 16: Reindeer Maze,✅,✅,1192ms
 Day 17: Chronospatial Computer,✅,✅,1ms
-Day 18: RAM Run,✅,✅,4270ms
+Day 18: RAM Run,✅,✅,24ms
 |===
 
 == Full-test mode
