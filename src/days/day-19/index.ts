@@ -14,37 +14,11 @@ function parse(input: string): Data {
   };
 }
 
-class SolverP1 {
-  private cache = new Map<string, boolean>();
-  constructor(private patterns: string[]) {}
-
-  check(design: string) {
-    if (design.length === 0) {
-      return true;
-    }
-    const cached = this.cache.get(design);
-    if (cached !== undefined) {
-      return cached;
-    }
-    for (let pattern of this.patterns) {
-      if (design.startsWith(pattern)) {
-        let result = this.check(design.slice(pattern.length));
-        if (result) {
-          this.cache.set(design, true);
-          return true;
-        }
-      }
-    }
-    this.cache.set(design, false);
-    return false;
-  }
-}
-
-class SolverP2 {
+class Solver {
   private cache = new Map<string, number>();
   constructor(private patterns: string[]) {}
 
-  check(design: string): number {
+  count(design: string, checkOnly: boolean): number {
     if (design.length === 0) {
       return 1;
     }
@@ -55,7 +29,12 @@ class SolverP2 {
     let total = 0;
     for (let pattern of this.patterns) {
       if (design.startsWith(pattern)) {
-        total += this.check(design.slice(pattern.length));
+        let result = this.count(design.slice(pattern.length), checkOnly);
+        if (checkOnly && result > 0) {
+          this.cache.set(design, 1);
+          return 1;
+        }
+        total += result;
       }
     }
     this.cache.set(design, total);
@@ -65,14 +44,14 @@ class SolverP2 {
 
 export function partOne(input: string) {
   const { patterns, designs } = parse(input);
-  const solver = new SolverP1(patterns);
-  return designs.filter((design) => solver.check(design)).length;
+  const solver = new Solver(patterns);
+  return designs.filter((design) => solver.count(design, true) > 0).length;
 }
 
 export function partTwo(input: string) {
   const { patterns, designs } = parse(input);
-  const solver = new SolverP2(patterns);
+  const solver = new Solver(patterns);
   return designs
-    .map((design) => solver.check(design))
+    .map((design) => solver.count(design, false))
     .reduce((a, b) => a + b, 0);
 }
