@@ -63,6 +63,7 @@ Day 15: Warehouse Woes,✅,✅,35ms
 Day 16: Reindeer Maze,✅,✅,1192ms
 Day 17: Chronospatial Computer,✅,✅,1ms
 Day 18: RAM Run,✅,✅,24ms
+Day 19: Linen Layout,✅,✅,96ms
 |===
 
 == Full-test mode
