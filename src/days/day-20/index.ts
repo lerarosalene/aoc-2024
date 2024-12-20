@@ -92,8 +92,12 @@ function fillDistances(grid: IGrid<string>, from: Point) {
   return distanceGrid;
 }
 
-function calculateCheat(path: [Point, Point], endDistances: IGrid<number>) {
-  const startDistance = endDistances.at(path[0].x, path[0].y);
+function calculateCheat(
+  path: [Point, Point],
+  startDistances: IGrid<number>,
+  endDistances: IGrid<number>,
+) {
+  const startDistance = startDistances.at(path[0].x, path[0].y);
   const endDistance = endDistances.at(path[1].x, path[1].y);
   if (
     startDistance === null ||
@@ -104,26 +108,34 @@ function calculateCheat(path: [Point, Point], endDistances: IGrid<number>) {
     return null;
   }
 
-  const cheated =
-    Math.abs(path[0].x - path[1].x) + Math.abs(path[0].y - path[1].y);
-  const uncheated = startDistance - endDistance;
-  return uncheated - cheated;
+  return (
+    startDistance +
+    endDistance +
+    Math.abs(path[0].x - path[1].x) +
+    Math.abs(path[0].y - path[1].y)
+  );
 }
 
 function solve(grid: IGrid<string>, start: Point, end: Point, max: number) {
-  const distances = fillDistances(grid, end);
+  const startDistances = fillDistances(grid, start);
+  const endDistances = fillDistances(grid, end);
+
+  const uncheated = startDistances.at(end.x, end.y) ?? Infinity;
 
   let count = 0;
   for (let x = 0; x < grid.width; ++x) {
     for (let y = 0; y < grid.height; ++y) {
-      if (distances.at(x, y) === null || distances.at(x, y) === Infinity) {
+      if (
+        startDistances.at(x, y) === null ||
+        startDistances.at(x, y) === Infinity
+      ) {
         continue;
       }
       for (let ex = x - max; ex < x + max + 1; ++ex) {
         for (let ey = y - max; ey < y + max + 1; ++ey) {
           if (
-            distances.at(ex, ey) === null ||
-            distances.at(ex, ey) === Infinity
+            startDistances.at(ex, ey) === null ||
+            startDistances.at(ex, ey) === Infinity
           ) {
             continue;
           }
@@ -131,13 +143,18 @@ function solve(grid: IGrid<string>, start: Point, end: Point, max: number) {
           if (totalDistance > max) {
             continue;
           }
-          const saving = calculateCheat(
+          const withCheat = calculateCheat(
             [
               { x, y },
               { x: ex, y: ey },
             ],
-            distances,
+            startDistances,
+            endDistances,
           );
+          if (withCheat === null) {
+            continue;
+          }
+          const saving = uncheated - withCheat;
           if (saving === null || saving < 100) {
             continue;
           }
