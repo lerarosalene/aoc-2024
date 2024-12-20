@@ -51,7 +51,7 @@ function setResult(data: Map<number, Record>, params: SetResultParams) {
   }
   row.result1 = result1 ? "\u2705" : "\u274C";
   row.result2 = result2 ? "\u2705" : "\u274C";
-  row.time = `${time.toFixed(0)}ms`;
+  row.time = `${time.toFixed(0)}`;
 }
 
 async function main() {
@@ -126,13 +126,19 @@ async function main() {
 
   await fsp.writeFile("times.csv", newResultsCSV);
 
-  const newAdocCSV = [...results]
+  let newAdocCSV = [...results]
     .sort(([a], [b]) => a - b)
     .map(
       ([, record]) =>
-        `${record.title},${record.result1},${record.result2},${record.time}`,
+        `${record.title},${record.result1},${record.result2},${record.time}ms`,
     )
     .join("\n");
+
+  const total = [...results].reduce(
+    (acc, [, record]) => acc + Number(record.time),
+    0,
+  );
+  newAdocCSV += `\nTotal,,,${total}ms`;
 
   const template = await fsp.readFile("README.template.adoc", "utf-8");
   const adoc = template.replaceAll("--SELFTEST-DATA--", newAdocCSV);
