@@ -6,7 +6,7 @@
     "typecheck": "tsc",
     "build": "node build.js",
     "solve": "npm run typecheck && npm run build && node --enable-source-maps dist/aoc-2024.js",
-    "prettier": "prettier -w src/**/*.ts build.js build-tests.js",
+    "prettier": "prettier -w src/**/*.ts *.js",
     "build:tests": "node build-tests.js",
     "test": "node build-tests.js && node --enable-source-maps --test dist/tests.js",
     "full-test": "node build.js && node --enable-source-maps dist/aoc-2024.js -f inputs/selftest.txt",
@@ -29,6 +29,7 @@
     "glob": "^11.0.0",
     "prettier": "^3.4.1",
     "progress": "^2.0.3",
+    "re2": "^1.21.4",
     "typescript": "^5.7.2",
     "zod": "^3.23.8"
   }

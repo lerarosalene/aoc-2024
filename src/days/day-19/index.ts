@@ -5,7 +5,7 @@ interface Data {
   designs: string[];
 }
 
-function parse(input: string): Data {
+export function parse(input: string): Data {
   const [patterns, designs] = input.split("\n\n");
 
   return {
