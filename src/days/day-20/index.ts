@@ -92,12 +92,8 @@ function fillDistances(grid: IGrid<string>, from: Point) {
   return distanceGrid;
 }
 
-function calculateCheat(
-  path: [Point, Point],
-  startDistances: IGrid<number>,
-  endDistances: IGrid<number>,
-) {
-  const startDistance = startDistances.at(path[0].x, path[0].y);
+function calculateCheat(path: [Point, Point], endDistances: IGrid<number>) {
+  const startDistance = endDistances.at(path[0].x, path[0].y);
   const endDistance = endDistances.at(path[1].x, path[1].y);
   if (
     startDistance === null ||
@@ -107,34 +103,27 @@ function calculateCheat(
   ) {
     return null;
   }
-  return (
-    startDistance +
-    endDistance +
-    Math.abs(path[0].x - path[1].x) +
-    Math.abs(path[1].y - path[0].y)
-  );
+
+  const cheated =
+    Math.abs(path[0].x - path[1].x) + Math.abs(path[0].y - path[1].y);
+  const uncheated = startDistance - endDistance;
+  return uncheated - cheated;
 }
 
 function solve(grid: IGrid<string>, start: Point, end: Point, max: number) {
-  const startDistances = fillDistances(grid, start);
-  const endDistances = fillDistances(grid, end);
-  const uncheatedLength = startDistances.at(end.x, end.y);
-  assert(uncheatedLength, "there is direct path");
+  const distances = fillDistances(grid, end);
 
-  const cheats = new Map<string, number>();
+  let count = 0;
   for (let x = 0; x < grid.width; ++x) {
     for (let y = 0; y < grid.height; ++y) {
-      if (
-        startDistances.at(x, y) === null ||
-        startDistances.at(x, y) === Infinity
-      ) {
+      if (distances.at(x, y) === null || distances.at(x, y) === Infinity) {
         continue;
       }
       for (let ex = x - max; ex < x + max + 1; ++ex) {
         for (let ey = y - max; ey < y + max + 1; ++ey) {
           if (
-            endDistances.at(ex, ey) === null ||
-            endDistances.at(ex, ey) === Infinity
+            distances.at(ex, ey) === null ||
+            distances.at(ex, ey) === Infinity
           ) {
             continue;
           }
@@ -142,29 +131,23 @@ function solve(grid: IGrid<string>, start: Point, end: Point, max: number) {
           if (totalDistance > max) {
             continue;
           }
-          const cheatedLength = calculateCheat(
+          const saving = calculateCheat(
             [
               { x, y },
               { x: ex, y: ey },
             ],
-            startDistances,
-            endDistances,
+            distances,
           );
-          if (cheatedLength === null) {
+          if (saving === null || saving < 100) {
             continue;
           }
-          const saving = uncheatedLength - cheatedLength;
-          const cheatKey = `${x}:${y}:${ex}:${ey}`;
-          cheats.set(
-            cheatKey,
-            Math.max(cheats.get(cheatKey) ?? -Infinity, saving),
-          );
+          count++;
         }
       }
     }
   }
 
-  return [...cheats].filter(([, saving]) => saving >= 100).length;
+  return count;
 }
 
 export function partOne(input: string) {
