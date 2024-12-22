@@ -152,7 +152,7 @@ are based around my input.
 |Day 21: Keypad Conundrum
 |✅
 |✅
-|11ms
+|2ms
 
 |Day 22: Monkey Market
 |✅
@@ -160,7 +160,7 @@ are based around my input.
 |582ms
 
 3+|Total
-|4126ms
+|4117ms
 |===
 
 == Full-test mode
