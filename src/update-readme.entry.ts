@@ -130,15 +130,15 @@ async function main() {
     .sort(([a], [b]) => a - b)
     .map(
       ([, record]) =>
-        `${record.title},${record.result1},${record.result2},${record.time}ms`,
+        `|${record.title}\n|${record.result1}\n|${record.result2}\n|${record.time}ms`,
     )
-    .join("\n");
+    .join("\n\n");
 
   const total = [...results].reduce(
     (acc, [, record]) => acc + Number(record.time),
     0,
   );
-  newAdocCSV += `\nTotal,,,${total}ms`;
+  newAdocCSV += `\n\n3+|Total\n|${total}ms`;
 
   const template = await fsp.readFile("README.template.adoc", "utf-8");
   const adoc = template.replaceAll("--SELFTEST-DATA--", newAdocCSV);

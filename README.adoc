@@ -42,31 +42,120 @@ NOTE: I have no idea if day 17 part 2 will work for arbitrary input.
 This puzzle is about reverse-engineering and a lot of assumptions
 are based around my input.
 
-[%header,cols="70,~,~,~",format=csv]
+[%header,cols="70,~,~,~"]
 |===
-Day,Part I,Part II,Execution time
-Day 1: Historian Hysteria,✅,✅,2ms
-Day 2: Red-Nosed Reports,✅,✅,6ms
-Day 3: Mull It Over,✅,✅,1ms
-Day 4: Ceres Search,✅,✅,64ms
-Day 5: Print Queue,✅,✅,13ms
-Day 6: Guard Gallivant,✅,✅,486ms
-Day 7: Bridge Repair,✅,✅,200ms
-Day 8: Resonant Collinearity,✅,✅,2ms
-Day 9: Disk Fragmenter,✅,✅,178ms
-Day 10: Hoof It,✅,✅,12ms
-Day 11: Plutonian Pebbles,✅,✅,41ms
-Day 12: Garden Groups,✅,✅,716ms
-Day 13: Claw Contraption,✅,✅,2ms
-Day 14: Restroom Redoubt,✅,✅,260ms
-Day 15: Warehouse Woes,✅,✅,35ms
-Day 16: Reindeer Maze,✅,✅,1192ms
-Day 17: Chronospatial Computer,✅,✅,1ms
-Day 18: RAM Run,✅,✅,24ms
-Day 19: Linen Layout,✅,✅,92ms
-Day 20: Race Condition,✅,✅,206ms
-Day 21: Keypad Conundrum,✅,✅,0ms
-Total,,,3533ms
+|Day
+|Part I
+|Part II
+|Execution time
+
+|Day 1: Historian Hysteria
+|✅
+|✅
+|2ms
+
+|Day 2: Red-Nosed Reports
+|✅
+|✅
+|6ms
+
+|Day 3: Mull It Over
+|✅
+|✅
+|1ms
+
+|Day 4: Ceres Search
+|✅
+|✅
+|64ms
+
+|Day 5: Print Queue
+|✅
+|✅
+|13ms
+
+|Day 6: Guard Gallivant
+|✅
+|✅
+|486ms
+
+|Day 7: Bridge Repair
+|✅
+|✅
+|200ms
+
+|Day 8: Resonant Collinearity
+|✅
+|✅
+|2ms
+
+|Day 9: Disk Fragmenter
+|✅
+|✅
+|178ms
+
+|Day 10: Hoof It
+|✅
+|✅
+|12ms
+
+|Day 11: Plutonian Pebbles
+|✅
+|✅
+|41ms
+
+|Day 12: Garden Groups
+|✅
+|✅
+|716ms
+
+|Day 13: Claw Contraption
+|✅
+|✅
+|2ms
+
+|Day 14: Restroom Redoubt
+|✅
+|✅
+|260ms
+
+|Day 15: Warehouse Woes
+|✅
+|✅
+|35ms
+
+|Day 16: Reindeer Maze
+|✅
+|✅
+|1192ms
+
+|Day 17: Chronospatial Computer
+|✅
+|✅
+|1ms
+
+|Day 18: RAM Run
+|✅
+|✅
+|24ms
+
+|Day 19: Linen Layout
+|✅
+|✅
+|92ms
+
+|Day 20: Race Condition
+|✅
+|✅
+|206ms
+
+|Day 21: Keypad Conundrum
+|✅
+|✅
+|0ms
+
+3+|Total
+|3533ms
 |===
 
 == Full-test mode

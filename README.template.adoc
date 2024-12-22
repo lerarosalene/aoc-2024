@@ -42,9 +42,13 @@ NOTE: I have no idea if day 17 part 2 will work for arbitrary input.
 This puzzle is about reverse-engineering and a lot of assumptions
 are based around my input.
 
-[%header,cols="70,~,~,~",format=csv]
+[%header,cols="70,~,~,~"]
 |===
-Day,Part I,Part II,Execution time
+|Day
+|Part I
+|Part II
+|Execution time
+
 --SELFTEST-DATA--
 |===
 
