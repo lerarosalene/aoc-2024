@@ -157,10 +157,10 @@ are based around my input.
 |Day 22: Monkey Market
 |✅
 |✅
-|3090ms
+|582ms
 
 3+|Total
-|6623ms
+|4115ms
 |===
 
 == Full-test mode
