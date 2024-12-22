@@ -62,7 +62,12 @@ function drawKeypad(
   return result.join("\n");
 }
 
-export function draw(symbol: string, robots: Robot[], keypad: Keypad) {
+export function draw(
+  symbol: string,
+  robots: Robot[],
+  keypad: Keypad,
+  flash: boolean,
+) {
   let totalWidth = 0;
   let totalHeight = 0;
   let { width: firstWidth, height: firstHeight } = getKeypadSize(
@@ -106,7 +111,7 @@ export function draw(symbol: string, robots: Robot[], keypad: Keypad) {
       symbol,
       currentRobotX,
       y,
-      true,
+      flash,
     ),
   );
   currentRobotX += firstKpWidth + GAP;
@@ -115,7 +120,13 @@ export function draw(symbol: string, robots: Robot[], keypad: Keypad) {
     const { width, height } = getKeypadSize(robot.grid);
     const y = (keypadsHeight - height) / 2 + PADDING_TOP;
     result.push(
-      drawKeypad(robot.grid, robot.button, currentRobotX, y, robot.highlighted),
+      drawKeypad(
+        robot.grid,
+        robot.button,
+        currentRobotX,
+        y,
+        robot.highlighted && flash,
+      ),
     );
     currentRobotX += width + GAP;
   }

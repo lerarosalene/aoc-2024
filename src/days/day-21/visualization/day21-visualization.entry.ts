@@ -53,16 +53,18 @@ async function main() {
   let frame: string | null = null;
   for (const symbol of sequence) {
     robots[0].command(symbol);
-    frame = draw(symbol, robots, kp);
-    const name = frameNamer.getNextName();
-    const framePath = p.join(output, name);
-    await fsp.writeFile(framePath, frame);
+    for (let flash of [false, true, false]) {
+      frame = draw(symbol, robots, kp, flash);
+      const name = frameNamer.getNextName();
+      const framePath = p.join(output, name);
+      await fsp.writeFile(framePath, frame);
+    }
     for (const robot of robots) {
       robot.resetHighlight();
     }
   }
 
-  for (let i = 0; i < 10; ++i) {
+  for (let i = 0; i < 30; ++i) {
     const name = frameNamer.getNextName();
     const framePath = p.join(output, name);
     await fsp.writeFile(framePath, frame ?? "");
