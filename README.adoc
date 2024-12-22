@@ -65,8 +65,8 @@ Day 17: Chronospatial Computer,✅,✅,1ms
 Day 18: RAM Run,✅,✅,24ms
 Day 19: Linen Layout,✅,✅,92ms
 Day 20: Race Condition,✅,✅,206ms
-Day 21: Keypad Conundrum,✅,✅,10ms
-Total,,,3543ms
+Day 21: Keypad Conundrum,✅,✅,0ms
+Total,,,3533ms
 |===
 
 == Full-test mode

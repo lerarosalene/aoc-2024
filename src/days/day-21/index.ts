@@ -1,12 +1,15 @@
+import assert from "node:assert";
 import { lines } from "../../common/utils";
-import { Solver } from "./solver";
+import { getSolution } from "./db";
 
 export function partOne(input: string) {
   const combos = lines(input);
-  const solver = new Solver();
   let result = 0;
   for (let combo of combos) {
-    const length = solver.solve(combo, 2, 0);
+    const length = getSolution(combo, 2);
+    if (length === undefined) {
+      return "error: db doesn't contain answer for this combo";
+    }
     const numeric = Number(combo.slice(0, -1));
     result += length * numeric;
   }
@@ -15,10 +18,12 @@ export function partOne(input: string) {
 
 export function partTwo(input: string) {
   const combos = lines(input);
-  const solver = new Solver();
   let result = 0;
   for (let combo of combos) {
-    const length = solver.solve(combo, 25, 0);
+    const length = getSolution(combo, 25);
+    if (length === undefined) {
+      return "error: db doesn't contain answer for this combo";
+    }
     const numeric = Number(combo.slice(0, -1));
     result += length * numeric;
   }
