@@ -34,9 +34,13 @@ async function main() {
 
   const solver = new VerboseSolver();
   const target = input;
-  const sequence = solver.solve(target, 2, 0);
+  const sequence = solver.solve(target, 6, 0);
 
   const robots = [
+    new Robot(KeypadType.DIRECTIONAL, "A"),
+    new Robot(KeypadType.DIRECTIONAL, "A"),
+    new Robot(KeypadType.DIRECTIONAL, "A"),
+    new Robot(KeypadType.DIRECTIONAL, "A"),
     new Robot(KeypadType.DIRECTIONAL, "A"),
     new Robot(KeypadType.DIRECTIONAL, "A"),
     new Robot(KeypadType.NUMERIC, "A"),

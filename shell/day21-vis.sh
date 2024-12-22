@@ -12,5 +12,5 @@ node dist/day21-visualization.js -i "${TARGET}" -o "${OUTPUT_DIR}/frames"
 
 pushd "${OUTPUT_DIR}/frames"
   find . -name '*.svg' | xargs -P 8 -IFILE mogrify -format png FILE
-  ffmpeg -framerate 5 -i "%05d.png" ../day21.gif -y
+  ffmpeg -framerate 60 -i "%05d.png" ../day21.mp4 -y
 popd
