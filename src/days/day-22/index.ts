@@ -10,13 +10,18 @@ function evolve(x: bigint) {
 
 function sequenceKey(sequence: bigint[]) {
   assert(sequence.length === 4);
-  return sequence.join(":");
+  return (
+    (sequence[0] + 10n) * 8000n +
+    (sequence[1] + 10n) * 400n +
+    (sequence[2] + 10n) * 20n +
+    (sequence[3] + 10n)
+  );
 }
 
-function addSequences(counter: Map<string, bigint>, buyer: bigint) {
+function addSequences(counter: Map<bigint, bigint>, buyer: bigint) {
   let last = buyer;
   let sequence: bigint[] = [];
-  let visited = new Set<string>();
+  let visited = new Set<bigint>();
   for (let i = 0; i < 2000; ++i) {
     let next = evolve(last);
     sequence.push((next % 10n) - (last % 10n));
@@ -37,7 +42,7 @@ function addSequences(counter: Map<string, bigint>, buyer: bigint) {
 }
 
 export function partOne(input: string) {
-  const buyers = lines(input).map(line => BigInt(line));
+  const buyers = lines(input).map((line) => BigInt(line));
   let result = 0n;
 
   for (let buyer of buyers) {
@@ -51,8 +56,8 @@ export function partOne(input: string) {
 }
 
 export function partTwo(input: string) {
-  const buyers = lines(input).map(line => BigInt(line));
-  const mapping = new Map<string, bigint>();
+  const buyers = lines(input).map((line) => BigInt(line));
+  const mapping = new Map<bigint, bigint>();
   for (let buyer of buyers) {
     addSequences(mapping, buyer);
   }
