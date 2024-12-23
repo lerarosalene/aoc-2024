@@ -159,8 +159,13 @@ are based around my input.
 |✅
 |582ms
 
+|Day 23: LAN Party
+|✅
+|✅
+|56ms
+
 3+|Total
-|4117ms
+|4173ms
 |===
 
 == Full-test mode
