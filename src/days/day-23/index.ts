@@ -1,5 +1,6 @@
 import assert from "node:assert";
 import { lines } from "../../common/utils";
+import { intersection, subtract, take, union } from "../../common/set-utils";
 
 function parse(input: string) {
   return lines(input).map((line) => {
@@ -42,53 +43,32 @@ class Graph {
   public nodes() {
     return this._nodes.keys();
   }
-}
 
-function union<T>(a: Set<T>, b: Set<T>) {
-  let result = new Set<T>();
-  for (const item of a) {
-    result.add(item);
-  }
-  for (const item of b) {
-    result.add(item);
-  }
-  return result;
-}
-
-function intersection<T>(a: Set<T>, b: Set<T>) {
-  return new Set([...a].filter((item) => b.has(item)));
-}
-
-function subtract<T>(a: Set<T>, b: Set<T>) {
-  return new Set([...a].filter((item) => !b.has(item)));
-}
-
-function take<T>(set: Set<T>) {
-  return set[Symbol.iterator]().next().value ?? null;
-}
-
-function* BronKerbosch(
-  graph: Graph,
-  r: Set<string>,
-  p: Set<string>,
-  x: Set<string>,
-): IterableIterator<Set<string>> {
-  if (p.size === 0 && x.size === 0) {
-    yield r;
-    return;
+  public *cliques() {
+    yield* this._bronKerbosch(new Set(), new Set(this.nodes()), new Set());
   }
 
-  const u = take(p) ?? take(x);
-  assert(u);
-  for (const v of subtract(p, graph.connections(u))) {
-    yield* BronKerbosch(
-      graph,
-      union(r, new Set([v])),
-      intersection(p, graph.connections(v)),
-      intersection(x, graph.connections(v)),
-    );
-    p = subtract(p, new Set([v]));
-    x = union(x, new Set([v]));
+  private *_bronKerbosch(
+    r: Set<string>,
+    p: Set<string>,
+    x: Set<string>,
+  ): IterableIterator<Set<string>> {
+    if (p.size === 0 && x.size === 0) {
+      yield r;
+      return;
+    }
+
+    const u = take(p) ?? take(x);
+    assert(u);
+    for (const v of subtract(p, this.connections(u))) {
+      yield* this._bronKerbosch(
+        union(r, new Set([v])),
+        intersection(p, this.connections(v)),
+        intersection(x, this.connections(v)),
+      );
+      p = subtract(p, new Set([v]));
+      x = union(x, new Set([v]));
+    }
   }
 }
 
@@ -130,12 +110,7 @@ export function partTwo(input: string) {
 
   let biggest = new Set<string>();
 
-  for (const clique of BronKerbosch(
-    graph,
-    new Set(),
-    new Set(graph.nodes()),
-    new Set(),
-  )) {
+  for (const clique of graph.cliques()) {
     if (clique.size > biggest.size) {
       biggest = clique;
     }
