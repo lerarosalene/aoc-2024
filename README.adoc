@@ -164,8 +164,13 @@ are based around my input.
 |✅
 |56ms
 
+|Day 24: Crossed Wires
+|✅
+|✅
+|362ms
+
 3+|Total
-|4173ms
+|4535ms
 |===
 
 == Full-test mode
