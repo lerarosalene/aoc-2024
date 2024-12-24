@@ -1,4 +1,4 @@
-import { Worker } from "node:worker_threads";
+import { Worker } from "../../vendor/worker";
 import { Direction, difference } from "../../common/grid";
 import { WorkerData, findOnGrid, isOnGrid, key, rotate } from "./common";
 import { ContinousGrid } from "../../common/continous-grid";
@@ -67,11 +67,9 @@ export async function partTwo(input: string) {
         input,
         batch: batches[i],
       };
-      const worker = new Worker(WORKERS.DAY6, {
-        workerData,
-        eval: true,
-      });
+      const worker = new Worker(WORKERS.DAY6);
       worker.on("message", (result: number) => resolve(result));
+      worker.send(workerData);
     });
     promises.push(promise);
   }

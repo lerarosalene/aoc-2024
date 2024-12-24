@@ -10,7 +10,7 @@ interface Assert {
 
 function createAssert(): Assert {
   try {
-    return new Function(`require("assert")`)();
+    return eval(`require("assert")`);
   } catch (error) {
     // browser
     function assert<T>(condition: T, message?: string) {

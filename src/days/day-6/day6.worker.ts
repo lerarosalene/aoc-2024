@@ -1,13 +1,9 @@
-import { isMainThread, parentPort, workerData } from "node:worker_threads";
+import { WorkerApi } from "../../vendor/worker-api";
 import { WorkerData, isInfiniteLoop, placeObstacle } from "./common";
 import { ContinousGrid } from "../../common/continous-grid";
 
-function main() {
-  if (isMainThread) {
-    throw new Error("Supposed to only be ran as a worker");
-  }
-
-  const wd: WorkerData = workerData;
+function main(wd: WorkerData) {
+  WorkerApi.off("message", main);
   const grid = ContinousGrid.parseCharGrid(wd.input);
 
   let result = 0;
@@ -22,7 +18,7 @@ function main() {
     }
   }
 
-  parentPort?.postMessage(result);
+  WorkerApi.send(result);
 }
 
-main();
+WorkerApi.on("message", main);

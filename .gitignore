@@ -1,5 +1,6 @@
 /node_modules
 /dist
+/browser
 /inputs
 /tests
 /README.adoc.bak

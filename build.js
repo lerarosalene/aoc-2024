@@ -9,6 +9,9 @@ async function main() {
     minify: true,
     platform: "node",
     plugins: [new NativePlugin()],
+    logOverride: {
+      "direct-eval": "debug",
+    },
   };
 
   const workers = await glob("src/**/*.worker.ts");

@@ -16,6 +16,9 @@ async function main() {
       outfile: p.join("dist", p.basename(worker, ".worker.ts") + ".worker.js"),
       platform: "node",
       write: false,
+      logOverride: {
+        "direct-eval": "debug",
+      },
     });
     define[`WORKERS.${p.basename(worker, ".worker.ts").toUpperCase()}`] =
       JSON.stringify(out.outputFiles[0].text);
@@ -44,6 +47,9 @@ async function main() {
     sourcemap: true,
     platform: "node",
     define,
+    logOverride: {
+      "direct-eval": "debug",
+    },
   });
 }
 
