@@ -55,17 +55,6 @@ function validateAdder(formulas: FormulaLookup, adder: number, total: number) {
       : validateChainAdder(formulas, adder);
 }
 
-function getInvalidAdders(formulas: FormulaLookup, total: number) {
-  let result: number[] = [];
-  for (let i = 0; i < total; ++i) {
-    if (validateAdder(formulas, i, total)) {
-      continue;
-    }
-    result.push(i);
-  }
-  return result;
-}
-
 interface ValidationResultCollect {
   invalid: Set<number>;
   correct: Set<string>;
