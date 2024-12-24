@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "../vendor/assert";
 import { lines } from "./utils";
 
 export enum Direction {

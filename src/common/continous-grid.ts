@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../vendor/assert";
 import { clone, isCloneable } from "./cloneable";
 import { lines } from "./utils";
 

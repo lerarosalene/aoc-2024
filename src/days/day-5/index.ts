@@ -1,4 +1,4 @@
-import assert from "assert";
+import assert from "../../vendor/assert";
 import { Rule, parse } from "./parse";
 import { Orderer } from "./order";
 

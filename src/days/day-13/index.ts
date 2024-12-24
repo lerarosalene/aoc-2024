@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../../vendor/assert";
 import { Point } from "../../common/point";
 
 interface Machine {

@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../../vendor/assert";
 import { ContinousGrid } from "../../common/continous-grid";
 import { Point } from "../../common/point";
 import { IGrid } from "../../common/grid";

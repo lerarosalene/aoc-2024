@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../../vendor/assert";
 import { lines } from "../../common/utils";
 import { Formula, isOperator, Wire, z } from "./common";
 import { FormulaLookup } from "./lookup";

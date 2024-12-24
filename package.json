@@ -21,6 +21,7 @@
   "license": "MIT",
   "description": "Advent of Code 2024 personal repository",
   "dependencies": {
+    "@types/lodash": "^4.17.13",
     "@types/node": "^22.10.1",
     "@types/progress": "^2.0.7",
     "arg": "^5.0.2",
@@ -28,6 +29,7 @@
     "csv-parse": "^5.6.0",
     "esbuild": "^0.24.0",
     "glob": "^11.0.0",
+    "lodash": "^4.17.21",
     "prettier": "^3.4.1",
     "progress": "^2.0.3",
     "re2": "^1.21.4",

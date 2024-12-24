@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../../vendor/assert";
 
 export namespace P2 {
   interface FreeSpace {

@@ -1,4 +1,4 @@
-import assert from "node:assert";
+import assert from "../../vendor/assert";
 import { KeypadType } from "./keypad";
 import { KeypadPathFinder } from "./path";
 
