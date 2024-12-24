@@ -1,16 +1,13 @@
+import { x, y, z } from "./common";
 import { FormulaLookup } from "./lookup";
 
 function validateChainAdder(formulas: FormulaLookup, adder: number) {
-  const index = adder.toString().padStart(2, "0");
-  const x = `x${index}`;
-  const y = `y${index}`;
-  const z = `z${index}`;
-  const m = formulas.findRhs(x, y, "XOR");
-  const n = formulas.findRhs(x, y, "AND");
+  const m = formulas.findRhs(x(adder), y(adder), "XOR");
+  const n = formulas.findRhs(x(adder), y(adder), "AND");
   if (!m || !n) {
     return null;
   }
-  const prevCarry = formulas.findOperand(m, "XOR", z);
+  const prevCarry = formulas.findOperand(m, "XOR", z(adder));
   if (!prevCarry) {
     return null;
   }
@@ -22,26 +19,22 @@ function validateChainAdder(formulas: FormulaLookup, adder: number) {
   if (!carryOut) {
     return null;
   }
-  return [z, m, n, r, carryOut];
+  return [z(adder), m, n, r, carryOut];
 }
 
 function validateLastAdder(formulas: FormulaLookup, adder: number) {
-  const index = adder.toString().padStart(2, "0");
-  const z = `z${index}`;
-  const [carryInLeft, carryInRight] = formulas.findOperands("OR", z) ?? [];
+  const [carryInLeft, carryInRight] =
+    formulas.findOperands("OR", z(adder)) ?? [];
   if (!carryInLeft || !carryInRight) {
     return null;
   }
-  return [carryInLeft, carryInRight, z];
+  return [carryInLeft, carryInRight, z(adder)];
 }
 
 function validateFirstAdder(formulas: FormulaLookup, adder: number) {
-  const index = adder.toString().padStart(2, "0");
-  const x = `x${index}`;
-  const y = `y${index}`;
-  const i1 = formulas.findRhs(x, y, "XOR");
-  const cOut = formulas.findRhs(x, y, "AND");
-  if (i1 !== `z${index}` || !cOut) {
+  const i1 = formulas.findRhs(x(adder), y(adder), "XOR");
+  const cOut = formulas.findRhs(x(adder), y(adder), "AND");
+  if (i1 !== z(adder) || !cOut) {
     return null;
   }
   return [i1, cOut];

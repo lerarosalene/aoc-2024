@@ -1,6 +1,6 @@
 import assert from "node:assert";
 import { lines } from "../../common/utils";
-import { Formula, isOperator, Wire } from "./common";
+import { Formula, isOperator, Wire, z } from "./common";
 import { FormulaLookup } from "./lookup";
 import { validateAdders } from "./validate";
 import { compile } from "./compile";
@@ -51,8 +51,7 @@ export function partOne(input: string) {
   const outputs = f(inputs);
   let result = 0;
   for (let i = 45; i >= 0; --i) {
-    result =
-      result * 2 + (outputs[`z${i.toString().padStart(2, "0")}`] ? 1 : 0);
+    result = result * 2 + (outputs[z(i)] ? 1 : 0);
   }
 
   return result;

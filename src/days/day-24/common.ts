@@ -15,3 +15,15 @@ export interface Formula {
   result: string;
   operator: Operator;
 }
+
+export function x(index: number) {
+  return `x${index.toString().padStart(2, "0")}`;
+}
+
+export function y(index: number) {
+  return `y${index.toString().padStart(2, "0")}`;
+}
+
+export function z(index: number) {
+  return `z${index.toString().padStart(2, "0")}`;
+}
