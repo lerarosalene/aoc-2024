@@ -32,7 +32,7 @@ function parseFormulas(formulas: string) {
   });
 }
 
-function parse(input: string) {
+export function parse(input: string) {
   const [initial, formulas] = input.split("\n\n");
   return { wires: parseWires(initial), formulas: parseFormulas(formulas) };
 }
