@@ -128,9 +128,10 @@ async function main() {
 
   let newAdocCSV = [...results]
     .sort(([a], [b]) => a - b)
-    .map(
-      ([, record]) =>
-        `|${record.title}\n|${record.result1}\n|${record.result2}\n|${record.time}ms`,
+    .map(([, record]) =>
+      Number(record.day) !== 25
+        ? `|${record.title}\n|${record.result1}\n|${record.result2}\n|${record.time}ms`
+        : `|${record.title}\n2+^|${record.result1}\n|${record.time}ms`,
     )
     .join("\n\n");
 

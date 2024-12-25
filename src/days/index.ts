@@ -22,6 +22,7 @@ import * as Day21 from "./day-21";
 import * as Day22 from "./day-22";
 import * as Day23 from "./day-23";
 import * as Day24 from "./day-24";
+import * as Day25 from "./day-25";
 
 type SolverResolvedResult = number | bigint | string;
 type SolverResult = SolverResolvedResult | Promise<SolverResolvedResult>;
@@ -57,3 +58,4 @@ days.set(21, Day21);
 days.set(22, Day22);
 days.set(23, Day23);
 days.set(24, Day24);
+days.set(25, Day25);

@@ -3,7 +3,7 @@ const p = require("node:path");
 
 const fsp = fs.promises;
 
-const DAYS = 24;
+const DAYS = 25;
 
 async function main() {
   let code = [];
