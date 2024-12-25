@@ -7,10 +7,6 @@ interface Item {
   columns: number[];
 }
 
-interface Keychain {
-  byColumns: Array<Map<number, Set<Item>>>;
-}
-
 function parseItem(input: IGrid<string>): Item {
   if (input.at(0, 0) === "#") {
     let columns = [];
@@ -46,50 +42,16 @@ function parse(input: string) {
     .map(parseItem);
 }
 
-function createKeychain(items: Item[]) {
-  const keychain: Keychain = {
-    byColumns: Array(5)
-      .fill(0)
-      .map(() => new Map()),
-  };
-  for (const item of items) {
-    if (item.type === "lock") {
-      continue;
-    }
-    for (let i = 0; i < item.columns.length; ++i) {
-      const height = item.columns[i];
-      let columnBucket = keychain.byColumns[i];
-      assert(columnBucket);
-      for (let noOverlap = height; noOverlap <= 5; ++noOverlap) {
-        let heightBucket = columnBucket.get(noOverlap);
-        if (!heightBucket) {
-          heightBucket = new Set();
-          columnBucket.set(noOverlap, heightBucket);
-        }
-        heightBucket.add(item);
-      }
-    }
-  }
-  return keychain;
-}
-
-function countKeys(lock: Item, keychain: Keychain) {
-  let candidates = [
-    ...(keychain.byColumns[0].get(5 - lock.columns[0]) ?? new Set()),
-  ];
-  for (let i = 1; i < 5 && candidates.length > 0; ++i) {
-    let filter = keychain.byColumns[i].get(5 - lock.columns[i]) ?? new Set();
-    candidates = candidates.filter((c) => filter.has(c));
-  }
-  return candidates.length;
+function matches(lock: Item, key: Item) {
+  return lock.columns.every((c, i) => key.columns[i] + c <= 5);
 }
 
 export function partOne(input: string) {
   const items = parse(input);
-  const keychain = createKeychain(items);
-  return items
-    .filter((item) => item.type === "lock")
-    .map((item) => countKeys(item, keychain))
+  const keys = items.filter((item) => item.type === "key");
+  const locks = items.filter((item) => item.type === "lock");
+  return locks
+    .map((lock) => keys.filter((key) => matches(lock, key)).length)
     .reduce((a, b) => a + b, 0);
 }
 

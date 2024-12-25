@@ -171,10 +171,10 @@ are based around my input.
 
 |Day 25: Code Chronicle
 2+^|✅
-|5ms
+|4ms
 
 3+|Total
-|4186ms
+|4185ms
 |===
 
 == Full-test mode
